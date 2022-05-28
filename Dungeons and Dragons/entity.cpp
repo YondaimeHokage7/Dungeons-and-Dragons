@@ -12,3 +12,8 @@ void Entity::castSpell(Entity& target)
 {
     //
 }
+
+void Entity::takeDamage(int damage)
+{
+    
+}

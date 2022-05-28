@@ -14,6 +14,8 @@ public:
 
     void castSpell(Entity&);
 
+    void takeDamage(int damage);
+
 };
 
 
