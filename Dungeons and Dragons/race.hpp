@@ -6,12 +6,12 @@
 class Race
 {
 private:
-    std::string race;
+    std::string name;
     int strength;
     int mana;
     int health;
 public:
-    Race(std::string _race = "Generic", int _strength = 0, int _mana = 0, int _health = 0);
+    Race(std::string _name = "Generic", int _strength = 0, int _mana = 0, int _health = 0);
 
     int getRaceStrength() const
     {
@@ -30,7 +30,7 @@ public:
 
     std::string getName() const
     {
-        return race;
+        return name;
     }
 
 };
