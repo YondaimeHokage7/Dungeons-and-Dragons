@@ -10,9 +10,9 @@ private:
 public:
     Dragon();
 
-    void attack(Entity&, int attackDamage);
+    void attack(Entity&);
 
-    void castSpell(Entity&, int spellDamage);
+    void castSpell(Entity&);
 
     void takeDamage(int damage);
 };

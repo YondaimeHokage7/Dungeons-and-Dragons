@@ -10,6 +10,7 @@
 class Player : public Entity
 {
 private:
+    int level;
     Race race;
     Inventory inventory;
 public:
@@ -17,9 +18,9 @@ public:
 
     std::string getRace() const;
 
-    void attack(Entity&, int attackDamage);
+    void attack(Entity&);
 
-    void castSpell(Entity&, int spellDamage);
+    void castSpell(Entity&);
 
     void takeDamage(int damage);
 

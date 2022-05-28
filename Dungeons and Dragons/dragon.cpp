@@ -3,14 +3,14 @@
 Dragon::Dragon() : Entity(25, 25, 50)
 {}
 
-void Dragon::attack(Entity& target, int attackDamage)
+void Dragon::attack(Entity& target)
 {
-    target.takeDamage(attackDamage);
+    target.takeDamage(getStrength());
 }
 
-void Dragon::castSpell(Entity& target, int spellDamage)
+void Dragon::castSpell(Entity& target)
 {
-    target.takeDamage(spellDamage);
+    target.takeDamage(getMana());
 }
 
 void Dragon::takeDamage(int damage)

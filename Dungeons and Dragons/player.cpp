@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Player::Player(Race _race) : race(_race), Entity(_race.getRaceStrength(), _race.getRaceMana(), _race.getRaceHealth())
+Player::Player(Race _race) : level(1), race(_race), Entity(_race.getRaceStrength(), _race.getRaceMana(), _race.getRaceHealth())
 {
     setStrength(0.5 + (getStrength() + (double)inventory.getStrengthModifier() / 100 * getStrength()));
     setMana(0.5 + (getMana() + (double)inventory.getSpellModifier() / 100 * getMana()));
@@ -15,14 +15,14 @@ std::string Player::getRace() const
     return race.getName();
 }
 
-void Player::attack(Entity& target, int attackDamage)
+void Player::attack(Entity& target)
 {
-    target.takeDamage(0.5 + (attackDamage + inventory.getStrengthModifier() / 100 * attackDamage));
+    target.takeDamage(0.5 + (double)(getStrength() + inventory.getStrengthModifier() / 100 * getStrength()));
 }
 
-void Player::castSpell(Entity& target, int spellDamage)
+void Player::castSpell(Entity& target)
 {
-    target.takeDamage(0.5 + (spellDamage + inventory.getSpellModifier() / 100 * spellDamage));
+    target.takeDamage(0.5 + (double)(getMana() + inventory.getSpellModifier() / 100 * getMana()));
 }
 
 void Player::takeDamage(int damage)

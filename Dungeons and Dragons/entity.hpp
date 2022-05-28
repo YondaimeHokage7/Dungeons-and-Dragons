@@ -16,9 +16,9 @@ public:
 
     int getHealth() const { return health; }
 
-    virtual void attack(Entity&, int attackDamage) = 0;
+    virtual void attack(Entity&) = 0;
 
-    virtual void castSpell(Entity&, int spellDamage) = 0;
+    virtual void castSpell(Entity&) = 0;
 
     virtual void takeDamage(int damage) = 0;
 
