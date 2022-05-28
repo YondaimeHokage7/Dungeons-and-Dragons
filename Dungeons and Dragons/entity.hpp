@@ -7,15 +7,26 @@ private:
     int strength;
     int mana;
     int health;
-
-    void takeDamage(int damage);
-
 public:
     Entity(int _strength = 0, int _mana = 0, int _health = 0);
 
-    void attack(Entity&);
+    int getStrength() const { return strength; }
 
-    void castSpell(Entity&);
+    int getMana() const { return mana; }
+
+    int getHealth() const { return health; }
+
+    virtual void attack(Entity&, int attackDamage) = 0;
+
+    virtual void castSpell(Entity&, int spellDamage) = 0;
+
+    virtual void takeDamage(int damage) = 0;
+
+    void setStrength(int _strength);
+
+    void setMana(int _mana);
+
+    void setHealth(int _health);
 };
 
 

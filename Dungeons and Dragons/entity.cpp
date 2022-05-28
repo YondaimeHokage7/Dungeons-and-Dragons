@@ -3,17 +3,17 @@
 Entity::Entity(int _strength, int _mana, int _health) : strength(_strength), mana(_mana), health(_health)
 {}
 
-void Entity::attack(Entity& target)
+void Entity::setStrength(int _strength)
 {
-    //
+    strength = _strength;
 }
 
-void Entity::castSpell(Entity& target)
+void Entity::setMana(int _mana)
 {
-    //
+    mana = _mana;
 }
 
-void Entity::takeDamage(int damage)
+void Entity::setHealth(int _health)
 {
-    
+    health = _health;
 }
