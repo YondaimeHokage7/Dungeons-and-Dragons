@@ -148,7 +148,6 @@
     <ClInclude Include="armor.hpp" />
     <ClInclude Include="dragon.hpp" />
     <ClInclude Include="entity.hpp" />
-    <ClInclude Include="functions.hpp" />
     <ClInclude Include="human.hpp" />
     <ClInclude Include="inventory.hpp" />
     <ClInclude Include="item.hpp" />
