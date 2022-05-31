@@ -27,6 +27,4 @@ public:
     int getRows() const { return rows; }
 
     void print();
-
-    
 };

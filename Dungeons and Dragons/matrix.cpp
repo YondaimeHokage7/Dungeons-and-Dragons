@@ -37,6 +37,10 @@ Matrix::~Matrix()
 
 void Matrix::setMatrix(int _rows, int _columns)
 {
+    for (int i{0}; i < rows; i++)
+    {
+        delete[] matrix[i];
+    }
     delete[] matrix;
     matrix = new char* [_rows];
     for (int i{0}; i < _rows; i++)
@@ -131,17 +135,23 @@ Stack* Matrix::generatePaths()
     paths->push(stack.peek());
     return paths;
 
-    /*
-    for (int i{0}; i < columns; i++)
-    {
-        for (int j{0}; j < rows; j++)
-        {
-            if()
-        }
-    }
-    */
-}
 
+}
+/*
+void Matrix::addWalls()
+{
+
+}
+*/
+/*
+for (int i{0}; i < columns; i++)
+{
+    for (int j{0}; j < rows; j++)
+    {
+        if()
+    }
+}
+*/
 /*void Matrix::addOutsideWalls()
 {
     for (int i{0}; i < rows; i++)
@@ -155,10 +165,3 @@ Stack* Matrix::generatePaths()
         matrix[i][rows - 1] = '#';
     }
 }*/
-
-/*
-void Matrix::addWalls()
-{
-
-}
-*/
