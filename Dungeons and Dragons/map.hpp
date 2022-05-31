@@ -28,6 +28,8 @@ public:
     int getMonsters() const { return monsters; }
 
     int getTreasures() const { return treasures; }
+
+    Stack* getPaths() { return map.generatePaths(); }
 };
 
 #endif // !__MAP_HPP
