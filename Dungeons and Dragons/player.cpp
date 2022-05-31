@@ -17,12 +17,12 @@ std::string Player::getRace() const
 
 void Player::attack(Entity& target)
 {
-    target.takeDamage(0.5 + (double)(getStrength() + inventory.getStrengthModifier() / 100 * getStrength()));
+    target.takeDamage(0.5 + (getStrength() + (double)inventory.getStrengthModifier() / 100 * getStrength()));
 }
 
 void Player::castSpell(Entity& target)
 {
-    target.takeDamage(0.5 + (double)(getMana() + inventory.getSpellModifier() / 100 * getMana()));
+    target.takeDamage(0.5 + (getMana() + (double)inventory.getSpellModifier() / 100 * getMana()));
 }
 
 void Player::takeDamage(int damage)
