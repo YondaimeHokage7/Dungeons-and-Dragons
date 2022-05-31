@@ -1,7 +1,8 @@
-#include "map.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "map.hpp"
+
 
 
 Map::Map(int _level) : level(_level)
