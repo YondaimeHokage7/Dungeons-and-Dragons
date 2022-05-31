@@ -5,23 +5,29 @@
 
 Matrix::Matrix(int _rows, int _columns) : rows(_rows), columns(_columns), matrix(nullptr)
 {
-    setMatrix(_rows, _columns);
-    addDots();
+    allocate(_rows, _columns);
+    addZeroes();
     //addOutsideWalls();
 }
 
-Matrix::Matrix(const Matrix& other) : rows(other.rows), columns(other.columns), matrix(nullptr)
+Matrix::Matrix(const Matrix& other) : rows(other.rows), columns(other.columns)
 {
-    setMatrix(other.rows, other.columns);
+    deallocate();
+    allocate(rows, columns);
+    copy(other);
+    //setMatrix(other.rows, other.columns);
 }
 
 Matrix& Matrix::operator=(const Matrix& other)
 {
     if (this != &other)
     {
+        deallocate();
         rows = other.rows;
         columns = other.columns;
-        setMatrix(other.rows, other.columns);
+        allocate(rows, columns);
+        //setMatrix(other.rows, other.columns);
+        copy(other);
     }
     return *this;
 }
@@ -35,13 +41,28 @@ Matrix::~Matrix()
     delete[] matrix;
 }
 
-void Matrix::setMatrix(int _rows, int _columns)
+void Matrix::copy(const Matrix& other)
+{
+    for (int i{0}; i < rows; i++)
+    {
+        for (int j{0}; j < columns; j++)
+        {
+            matrix[i][j] = other.matrix[i][j];
+        }
+    }
+}
+
+void Matrix::deallocate()
 {
     for (int i{0}; i < rows; i++)
     {
         delete[] matrix[i];
     }
     delete[] matrix;
+}
+
+void Matrix::allocate(int _rows, int _columns)
+{
     matrix = new char* [_rows];
     for (int i{0}; i < _rows; i++)
     {
@@ -49,7 +70,7 @@ void Matrix::setMatrix(int _rows, int _columns)
     }
 }
 
-void Matrix::addDots()
+void Matrix::addZeroes()
 {
     for (int i{0}; i < rows; i++)
     {
@@ -74,7 +95,7 @@ void Matrix::print()
 
 Stack* Matrix::generatePaths()
 {
-    Stack stack(columns* rows);
+    Stack stack(columns * rows);
     Stack eligible(4);
     Stack* paths = new Stack(columns * rows);
     //Stack paths(columns * rows);
@@ -165,3 +186,10 @@ for (int i{0}; i < columns; i++)
         matrix[i][rows - 1] = '#';
     }
 }*/
+
+/*void Matrix::setMatrix(int _rows, int _columns)
+{
+    deallocate();
+    allocate(_rows,_columns);
+}
+*/

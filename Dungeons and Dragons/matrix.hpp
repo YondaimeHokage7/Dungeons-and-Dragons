@@ -7,8 +7,11 @@ private:
     int columns;
     int rows;
     char** matrix;
-    void setMatrix(int _rows, int _columns);
-    void addDots();
+    //void setMatrix(int _rows, int _columns);
+    void copy(const Matrix&);
+    void deallocate();
+    void allocate(int _rows, int _columns);
+    void addZeroes();
     //void addOutsideWalls();
     //void addWalls();
 public:
