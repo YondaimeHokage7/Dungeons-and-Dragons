@@ -1,15 +1,18 @@
 #pragma once
+#include "stack.hpp"
+
 class Matrix
 {
 private:
     int columns;
     int rows;
     char** matrix;
-    void setMatrix(int _columns, int _rows);
+    void setMatrix(int _rows, int _columns);
     void addDots();
-    void addWalls();
+    //void addOutsideWalls();
+    //void addWalls();
 public:
-    Matrix(int _columns = 0, int _rows = 0);
+    Matrix(int _rows = 0, int _columns = 0);
 
     Matrix(const Matrix&);
 
@@ -17,8 +20,13 @@ public:
 
     ~Matrix();
 
+    Stack* generatePaths();
+
     int getColumns() const { return columns; }
 
     int getRows() const { return rows; }
-};
 
+    void print();
+
+    
+};
