@@ -128,8 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="armor.cpp" />
+    <ClCompile Include="cellIndex.cpp" />
     <ClCompile Include="dragon.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="functions.cpp" />
     <ClCompile Include="human.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
@@ -140,14 +142,17 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="race.cpp" />
     <ClCompile Include="spell.cpp" />
+    <ClCompile Include="stack.cpp" />
     <ClCompile Include="treasure.cpp" />
     <ClCompile Include="warrior.cpp" />
     <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="armor.hpp" />
+    <ClInclude Include="cellIndex.hpp" />
     <ClInclude Include="dragon.hpp" />
     <ClInclude Include="entity.hpp" />
+    <ClInclude Include="functions.hpp" />
     <ClInclude Include="human.hpp" />
     <ClInclude Include="inventory.hpp" />
     <ClInclude Include="item.hpp" />
@@ -157,6 +162,7 @@
     <ClInclude Include="player.hpp" />
     <ClInclude Include="race.hpp" />
     <ClInclude Include="spell.hpp" />
+    <ClInclude Include="stack.hpp" />
     <ClInclude Include="treasure.hpp" />
     <ClInclude Include="warrior.hpp" />
     <ClInclude Include="weapon.hpp" />
