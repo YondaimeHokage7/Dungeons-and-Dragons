@@ -139,6 +139,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="matrix2.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="race.cpp" />
     <ClCompile Include="spell.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="mage.hpp" />
     <ClInclude Include="map.hpp" />
     <ClInclude Include="matrix.hpp" />
+    <ClInclude Include="matrix2.hpp" />
     <ClInclude Include="player.hpp" />
     <ClInclude Include="race.hpp" />
     <ClInclude Include="spell.hpp" />
