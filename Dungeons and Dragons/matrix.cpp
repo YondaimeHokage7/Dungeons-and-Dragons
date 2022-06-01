@@ -7,7 +7,6 @@ Matrix::Matrix(int _rows, int _columns) : rows(_rows), columns(_columns), matrix
 {
     allocate(_rows, _columns);
     addZeroes();
-    //addOutsideWalls();
 }
 
 Matrix::Matrix(const Matrix& other) : rows(other.rows), columns(other.columns)
@@ -15,7 +14,6 @@ Matrix::Matrix(const Matrix& other) : rows(other.rows), columns(other.columns)
     deallocate();
     allocate(rows, columns);
     copy(other);
-    //setMatrix(other.rows, other.columns);
 }
 
 Matrix& Matrix::operator=(const Matrix& other)
@@ -26,7 +24,6 @@ Matrix& Matrix::operator=(const Matrix& other)
         rows = other.rows;
         columns = other.columns;
         allocate(rows, columns);
-        //setMatrix(other.rows, other.columns);
         copy(other);
     }
     return *this;
@@ -98,12 +95,9 @@ Stack* Matrix::generatePaths() const
     Stack stack(columns * rows);
     Stack eligible(4);
     Stack* paths = new Stack(columns * rows);
-    //Stack paths(columns * rows);
     stack.push(CellIndex(0, 0));
     paths->push(CellIndex(0, 0));
     int numberOfVisited{1};
-    //CellIndex* connected{new CellIndex[columns * rows]};
-    //connected[0] = CellIndex(0, 0);
     matrix[0][0] = '.';
     while (numberOfVisited < columns * rows)
     {
@@ -145,7 +139,6 @@ Stack* Matrix::generatePaths() const
             paths->push(stack.peek());
             stack.push(random);
             matrix[random.getRow()][random.getColumn()] = '.';
-            //connected[numberOfVisited] = stack.peek();
             for (int i{0}; i < numOfEligible; i++)
             {
                 eligible.pop();
@@ -155,41 +148,4 @@ Stack* Matrix::generatePaths() const
     }
     paths->push(stack.peek());
     return paths;
-
-
 }
-/*
-void Matrix::addWalls()
-{
-
-}
-*/
-/*
-for (int i{0}; i < columns; i++)
-{
-    for (int j{0}; j < rows; j++)
-    {
-        if()
-    }
-}
-*/
-/*void Matrix::addOutsideWalls()
-{
-    for (int i{0}; i < rows; i++)
-    {
-        matrix[0][i] = '#';
-        matrix[columns - 1][i] = '#';
-    }
-    for (int i{1}; i < columns - 1; i++)
-    {
-        matrix[i][0] = '#';
-        matrix[i][rows - 1] = '#';
-    }
-}*/
-
-/*void Matrix::setMatrix(int _rows, int _columns)
-{
-    deallocate();
-    allocate(_rows,_columns);
-}
-*/
