@@ -93,18 +93,18 @@ void Matrix::print()
     }
 }
 
-Stack* Matrix::generatePaths()
+Stack* Matrix::generatePaths() const
 {
     Stack stack(columns * rows);
     Stack eligible(4);
     Stack* paths = new Stack(columns * rows);
     //Stack paths(columns * rows);
     stack.push(CellIndex(0, 0));
-    //paths->push(CellIndex(0, 0));
+    paths->push(CellIndex(0, 0));
     int numberOfVisited{1};
     //CellIndex* connected{new CellIndex[columns * rows]};
     //connected[0] = CellIndex(0, 0);
-    matrix[0][0] = '1';
+    matrix[0][0] = '.';
     while (numberOfVisited < columns * rows)
     {
         int numOfEligible{0};
@@ -144,7 +144,7 @@ Stack* Matrix::generatePaths()
             CellIndex random = CellIndex(eligible.chooseRandom());
             paths->push(stack.peek());
             stack.push(random);
-            matrix[random.row][random.column] = '1';
+            matrix[random.row][random.column] = '.';
             //connected[numberOfVisited] = stack.peek();
             for (int i{0}; i < numOfEligible; i++)
             {
