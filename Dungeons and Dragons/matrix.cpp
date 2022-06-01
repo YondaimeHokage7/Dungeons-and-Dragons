@@ -109,27 +109,27 @@ Stack* Matrix::generatePaths() const
     {
         int numOfEligible{0};
         //Up
-        if (stack.peek().row > 0 && matrix[stack.peek().row - 1][stack.peek().column] == '0')
+        if (stack.peek().getRow() > 0 && matrix[stack.peek().getRow() - 1][stack.peek().getColumn()] == '0')
         {
-            eligible.push(CellIndex(stack.peek().row - 1, stack.peek().column));
+            eligible.push(CellIndex(stack.peek().getRow() - 1, stack.peek().getColumn()));
             numOfEligible++;
         }
         //Down
-        if (stack.peek().row < getRows() - 1 && matrix[stack.peek().row + 1][stack.peek().column] == '0')
+        if (stack.peek().getRow() < getRows() - 1 && matrix[stack.peek().getRow() + 1][stack.peek().getColumn()] == '0')
         {
-            eligible.push(CellIndex(stack.peek().row + 1, stack.peek().column));
+            eligible.push(CellIndex(stack.peek().getRow() + 1, stack.peek().getColumn()));
             numOfEligible++;
         }
         //Left
-        if (stack.peek().column > 0 && matrix[stack.peek().row][stack.peek().column - 1] == '0')
+        if (stack.peek().getColumn() > 0 && matrix[stack.peek().getRow()][stack.peek().getColumn() - 1] == '0')
         {
-            eligible.push(CellIndex(stack.peek().row, stack.peek().column - 1));
+            eligible.push(CellIndex(stack.peek().getRow(), stack.peek().getColumn() - 1));
             numOfEligible++;
         }
         //Right
-        if (stack.peek().column < getColumns() - 1 && matrix[stack.peek().row][stack.peek().column + 1] == '0')
+        if (stack.peek().getColumn() < getColumns() - 1 && matrix[stack.peek().getRow()][stack.peek().getColumn() + 1] == '0')
         {
-            eligible.push(CellIndex(stack.peek().row, stack.peek().column + 1));
+            eligible.push(CellIndex(stack.peek().getRow(), stack.peek().getColumn() + 1));
             numOfEligible++;
         }
         //No eligible cells
@@ -144,7 +144,7 @@ Stack* Matrix::generatePaths() const
             CellIndex random = CellIndex(eligible.chooseRandom());
             paths->push(stack.peek());
             stack.push(random);
-            matrix[random.row][random.column] = '.';
+            matrix[random.getRow()][random.getColumn()] = '.';
             //connected[numberOfVisited] = stack.peek();
             for (int i{0}; i < numOfEligible; i++)
             {
