@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 
-class CellIndex
+struct CellIndex
 {
 private:
     int row, column;
