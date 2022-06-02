@@ -5,9 +5,9 @@
 class Stack
 {
 private:
-    CellIndex* elements;
     int capacity;
     int top;
+    CellIndex* elements;
 public:
 
     Stack(int _capacity = 0);
