@@ -136,5 +136,8 @@
     <Text Include="level2.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="treasure1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
