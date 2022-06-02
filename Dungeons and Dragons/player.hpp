@@ -6,10 +6,13 @@
 #include "human.hpp"
 #include "item.hpp"
 #include "inventory.hpp"
+#include "cellIndex.hpp"
+#include "map.hpp"
 
 class Player : public Entity
 {
 private:
+    CellIndex position;
     int level;
     Race race;
     Inventory inventory;
@@ -26,6 +29,7 @@ public:
 
     void printInventory() const;
 
+    void move(Map& map);
 };
 
 
