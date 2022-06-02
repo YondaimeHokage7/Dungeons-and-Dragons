@@ -13,13 +13,18 @@ class Map
 {
 private:
     int level;
-    int  monsters, treasures;
+    int monsters, treasures;
+    int size;
     Matrix map;
+    Stack* paths;
+    CellIndex* connections;
     void generateNextFile() const;
     void printBorder() const;
 
 public:
     Map(int level = 0);
+
+    ~Map();
 
     int getLevel() const { return level; }
 
@@ -35,8 +40,13 @@ public:
 
     Stack* getPaths() const { return map.generatePaths(); }
 
+    CellIndex* getConnections() const { return connections; }
+
+    int getSize() const { return size; }
+
     void print() const;
 
+    void setElement(int i, int j, int newValue) { map.setElement(i, j, newValue); }
 };
 
 #endif // !__MAP_HPP

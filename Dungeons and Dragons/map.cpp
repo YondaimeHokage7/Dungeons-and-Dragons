@@ -3,19 +3,31 @@
 #include <sstream>
 #include "map.hpp"
 
-Map::Map(int _level) : level(_level)
+Map::Map(int _level) : level(_level), paths(nullptr), connections(nullptr)
 {
     std::stringstream levelFileStream;
     levelFileStream << prefix << level << suffix;
     std::string fileName = levelFileStream.str();
-    std::ifstream levelFile(fileName,std::ios::in);
+    std::ifstream levelFile(fileName, std::ios::in);
     int height, width;
     levelFile >> height >> width >> monsters >> treasures;
     map = Matrix(height, width);
+    paths = getPaths();
+    size = paths->getTop();
+    connections = new CellIndex[paths->getTop() + 1];
+    for (int i{0}; paths->getTop() >= 0; i++)
+    {
+        connections[i] = paths->pop();
+    }
     if (level >= 2)
     {
         generateNextFile();
     }
+}
+
+Map::~Map()
+{
+    delete[] connections;
 }
 
 void Map::generateNextFile() const
@@ -60,14 +72,14 @@ void Map::printBorder() const
 void Map::print() const
 {
     printBorder();
-    Stack* paths = getPaths();
-    CellIndex* connections = new CellIndex[paths->getTop() + 1];
-    int size{paths->getTop()};
+    //Stack* paths = getPaths();
+    //CellIndex* connections = new CellIndex[paths->getTop() + 1];
+    //int size{paths->getTop()};
     //Copies the elements from the stack to the CallIndex array
-    for (int i{0}; paths->getTop() >= 0; i++)
-    {
-        connections[i] = paths->pop();
-    }
+    //for (int i{0}; paths->getTop() >= 0; i++)
+    //{
+    //    connections[i] = paths->pop();
+    //}
     //Prints the maze
     for (int i{0}; i < map.getRows() - 1; i++)
     {
@@ -86,7 +98,8 @@ void Map::print() const
                 std::cout << '#';
             }
         }
-        std::cout << " . #\n"; //Prints the last element of the row
+        //std::cout << " . #\n"; //Prints the last element of the row
+        std::cout << ' ' << map.getMatrix(i, getColumns() - 1) << " #\n"; //New version of line 89
         std::cout << '#'; //prints the left border of the current border row
         //Prints the current border row
         for (int j{0}; j < map.getColumns() - 1; j++)
@@ -135,6 +148,12 @@ void Map::print() const
             std::cout << '#';
         }
     }
-    std::cout << " . #\n"; //prints the last element
+    //std::cout << " . #\n"; //prints the last element
+    std::cout << ' ' << map.getMatrix(map.getRows() - 1, map.getColumns() - 1) << " #\n"; //New version of line 139
     printBorder();
+    //returns the elements from the array to the stack!
+    //for (int i{0}; i < size; size--)
+    //{
+        //paths->push(connections[size]);
+    //}
 }
