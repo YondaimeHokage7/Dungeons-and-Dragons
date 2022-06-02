@@ -32,4 +32,6 @@ public:
     int getRows() const { return rows; }
 
     void print();
+
+    void setElement(int i, int j, char newValue);
 };

@@ -129,8 +129,8 @@ Stack* Matrix::generatePaths() const
         //No eligible cells
         if (eligible.getTop() == -1)
         {
-            paths->push(stack.peek());
-            stack.pop();
+            paths->push(stack.pop());
+            //stack.pop();
         }
         //At least one eligible cell
         else
@@ -147,5 +147,11 @@ Stack* Matrix::generatePaths() const
         }
     }
     paths->push(stack.peek());
+    matrix[0][0] = 'X';
     return paths;
+}
+
+void Matrix::setElement(int i, int j, char newValue)
+{
+    matrix[i][j] = newValue;
 }
