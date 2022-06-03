@@ -12,8 +12,6 @@ private:
     void deallocate();
     void allocate(int _rows, int _columns);
     void addZeroes();
-    //void addOutsideWalls();
-    //void addWalls();
 public:
     Matrix(int _rows = 0, int _columns = 0);
 
@@ -34,4 +32,6 @@ public:
     void print();
 
     void setElement(int i, int j, char newValue);
+
+    char getElement(CellIndex index) const { return matrix[index.getRow()][index.getColumn()]; }
 };
