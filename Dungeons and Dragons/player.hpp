@@ -3,8 +3,6 @@
 
 #include "entity.hpp"
 #include "race.hpp"
-#include "human.hpp"
-#include "item.hpp"
 #include "inventory.hpp"
 #include "cellIndex.hpp"
 #include "map.hpp"
@@ -19,15 +17,15 @@ private:
 public:
     Player(Race _race);
 
-    std::string getRace() const;
+    std::string getRace() const { return race.getName(); }
 
-    void attack(Entity&);
+    void attack(Entity& target);
 
-    void castSpell(Entity&);
+    void castSpell(Entity& target);
 
     void takeDamage(int damage);
 
-    void printInventory() const;
+    void printInventory() const { inventory.print(); }
 
     void move(Map& map);
 };

@@ -6,13 +6,6 @@ Player::Player(Race _race) : level(1), position(CellIndex(0, 0)), race(_race), E
 {
     setStrength(0.5 + (getStrength() + (double)inventory.getStrengthModifier() / 100 * getStrength()));
     setMana(0.5 + (getMana() + (double)inventory.getSpellModifier() / 100 * getMana()));
-    //mana = mana + (double)inventory.getSpellModifier() / 100 * mana;
-    //strength = strength + (double)inventory.getStrengthModifier() / 100 * strength;
-}
-
-std::string Player::getRace() const
-{
-    return race.getName();
 }
 
 void Player::attack(Entity& target)
@@ -28,28 +21,15 @@ void Player::castSpell(Entity& target)
 void Player::takeDamage(int damage)
 {
     setHealth(0.5 + (getHealth() - damage - (double)(inventory.getArmorModifier() / 100 * damage)));
-    //health = health - (damage - inventory.getArmorModifier() / 100 * damage);
-}
-
-void Player::printInventory() const
-{
-    inventory.print();
 }
 
 void Player::move(Map& map)
 {
     char answers[4][6]{"Up", "Down", "Left", "Right"};
-    //char answer[6];
-    //std::cout << "Where would you like to go?\n";
-    //std::cin.getline(answer, 6, '\n');
     char direction[6];
-    std::cout << "where would you like to go?\n";
+    std::cout << "Where would you like to go?\n";
     std::cin.getline(direction, 6, '\n');
-    bool up{myStrcmp(direction, answers[0]) && areConnected(position, position.up(), map.getConnections(), map.getSize())};
-    bool down{myStrcmp(direction, answers[1]) && areConnected(position, position.down(), map.getConnections(), map.getSize())};
-    bool left{myStrcmp(direction, answers[2]) && areConnected(position, position.left(), map.getConnections(), map.getSize())};
-    bool right{myStrcmp(direction, answers[3]) && areConnected(position, position.right(), map.getConnections(), map.getSize())};
-    if (up)
+    if (myStrcmp(direction, answers[0]) && areConnected(position, position.up(), map.getConnections(), map.getSize()))
     {
         std::cout << "You moved up!\n";
         map.setElement(position.getRow(), position.getColumn(), '.');
@@ -57,7 +37,7 @@ void Player::move(Map& map)
         map.setElement(position.getRow(), position.getColumn(), 'X');
         map.print();
     }
-    else if (down)
+    else if (myStrcmp(direction, answers[1]) && areConnected(position, position.down(), map.getConnections(), map.getSize()))
     {
         std::cout << "You moved down!\n";
         map.setElement(position.getRow(), position.getColumn(), '.');
@@ -65,7 +45,7 @@ void Player::move(Map& map)
         map.setElement(position.getRow(), position.getColumn(), 'X');
         map.print();
     }
-    else if (left)
+    else if (myStrcmp(direction, answers[2]) && areConnected(position, position.left(), map.getConnections(), map.getSize()))
     {
         std::cout << "You moved left!\n";
         map.setElement(position.getRow(), position.getColumn(), '.');
@@ -73,7 +53,7 @@ void Player::move(Map& map)
         map.setElement(position.getRow(), position.getColumn(), 'X');
         map.print();
     }
-    else if (right)
+    else if (myStrcmp(direction, answers[3]) && areConnected(position, position.right(), map.getConnections(), map.getSize()))
     {
         std::cout << "You moved right!\n";
         map.setElement(position.getRow(), position.getColumn(), '.');
