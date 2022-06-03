@@ -6,15 +6,18 @@
 class Dragon : public Entity
 {
 private:
-    const static int scales = 15;
+    static int numberOfDragons;
+    int scales;
 public:
-    Dragon();
+    Dragon(int _level = 1, CellIndex _position = (0, 0));
 
     void attack(Entity&);
 
     void castSpell(Entity&);
 
     void takeDamage(int damage);
+
+    void levelUp();
 };
 
 #endif // !__DRAGON_HPP
