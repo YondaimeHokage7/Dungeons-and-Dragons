@@ -25,7 +25,7 @@ public:
 
     char getMatrix(int i, int j) const { return matrix[i][j]; }
 
-    Stack* generatePaths() const;
+    Stack generatePaths() const;
 
     int getColumns() const { return columns; }
 

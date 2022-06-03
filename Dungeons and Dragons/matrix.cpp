@@ -31,11 +31,7 @@ Matrix& Matrix::operator=(const Matrix& other)
 
 Matrix::~Matrix()
 {
-    for (int i{0}; i < rows; i++)
-    {
-        delete[] matrix[i];
-    }
-    delete[] matrix;
+    deallocate();
 }
 
 void Matrix::copy(const Matrix& other)
@@ -90,13 +86,13 @@ void Matrix::print()
     }
 }
 
-Stack* Matrix::generatePaths() const
+Stack Matrix::generatePaths() const
 {
     Stack stack(columns * rows);
     Stack eligible(4);
-    Stack* paths = new Stack(columns * rows);
+    Stack paths = Stack(columns * rows);
     stack.push(CellIndex(0, 0));
-    paths->push(CellIndex(0, 0));
+    paths.push(CellIndex(0, 0));
     int numberOfVisited{1};
     matrix[0][0] = '.';
     while (numberOfVisited < columns * rows)
@@ -127,16 +123,16 @@ Stack* Matrix::generatePaths() const
             numOfEligible++;
         }
         //No eligible cells
-        if (eligible.getTop() == -1)
+        if (eligible.empty())
         {
-            paths->push(stack.pop());
+            paths.push(stack.pop());
             //stack.pop();
         }
         //At least one eligible cell
         else
         {
             CellIndex random = CellIndex(eligible.chooseRandom());
-            paths->push(stack.peek());
+            paths.push(stack.peek());
             stack.push(random);
             matrix[random.getRow()][random.getColumn()] = '.';
             for (int i{0}; i < numOfEligible; i++)
@@ -146,7 +142,7 @@ Stack* Matrix::generatePaths() const
             numberOfVisited++;
         }
     }
-    paths->push(stack.peek());
+    paths.push(stack.peek());
     matrix[0][0] = 'X';
     return paths;
 }
