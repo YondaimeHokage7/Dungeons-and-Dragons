@@ -59,4 +59,16 @@ bool areConnected(CellIndex cell1, CellIndex cell2, CellIndex* connections, int 
     }
     return result;
 }
-//bool isConnected(Stack* stack, CellIndex start, CellIndex end)
+
+void ensureValidity(int answer, int points)
+{
+    while (answer < 0 || answer > points)
+    {
+        if (answer < 0)
+            std::cout << "The entered number must be a non-negative one!\n";
+        else if (answer > points)
+            std::cout << "You don't have enough points!\n";
+        std::cout << "Enter a new number: ";
+        std::cin >> answer;
+    }
+}

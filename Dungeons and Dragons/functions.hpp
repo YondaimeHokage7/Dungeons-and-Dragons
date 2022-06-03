@@ -8,3 +8,5 @@ int myStrlen(const char* string);
 bool myStrcmp(char* string1, char* string2);
 
 bool areConnected(CellIndex cell1, CellIndex cell2, CellIndex* connections, int size);
+
+void ensureValidity(int answer, int points);
