@@ -3,7 +3,7 @@
 #include <sstream>
 #include "map.hpp"
 
-Map::Map(int _level) : level(_level), paths(nullptr), connections(nullptr)
+Map::Map(int _level) : level(_level), connections(nullptr)
 {
     std::stringstream levelFileStream;
     levelFileStream << prefix << level << suffix;
@@ -12,17 +12,45 @@ Map::Map(int _level) : level(_level), paths(nullptr), connections(nullptr)
     int height, width;
     levelFile >> height >> width >> monsters >> treasures;
     map = Matrix(height, width);
-    paths = getPaths();
-    size = paths->getTop();
-    connections = new CellIndex[paths->getTop() + 1];
-    for (int i{0}; paths->getTop() >= 0; i++)
+    paths = map.generatePaths();
+    size = paths.getTop();
+    connections = new CellIndex[paths.getTop() + 1];
+    for (int i{0}; paths.getTop() >= 0; i++)
     {
-        connections[i] = paths->pop();
+        connections[i] = paths.pop();
     }
     if (level >= 2)
     {
         generateNextFile();
     }
+}
+
+Map::Map(const Map& other)
+{
+    level = other.level;
+    monsters = other.monsters;
+    treasures = other.treasures;
+    size = other.size;
+    map = other.map;
+    paths = other.paths;
+    delete[] connections;
+    connections = other.connections;
+}
+
+Map& Map::operator=(const Map& other)
+{
+    if (this != &other)
+    {
+        level = other.level;
+        monsters = other.monsters;
+        treasures = other.treasures;
+        size = other.size;
+        map = other.map;
+        paths = other.paths;
+        delete[] connections;
+        connections = other.connections;
+    }
+    return *this;
 }
 
 Map::~Map()

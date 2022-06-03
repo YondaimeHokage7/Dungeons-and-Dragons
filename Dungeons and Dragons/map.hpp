@@ -16,13 +16,17 @@ private:
     int monsters, treasures;
     int size;
     Matrix map;
-    Stack* paths;
+    Stack paths;
     CellIndex* connections;
     void generateNextFile() const;
     void printBorder() const;
 
 public:
     Map(int level = 0);
+
+    Map(const Map&);
+
+    Map& operator=(const Map&);
 
     ~Map();
 
@@ -38,7 +42,7 @@ public:
 
     int getTreasures() const { return treasures; }
 
-    Stack* getPaths() const { return map.generatePaths(); }
+    //Stack* getPaths() const { return map.generatePaths(); }
 
     CellIndex* getConnections() const { return connections; }
 
