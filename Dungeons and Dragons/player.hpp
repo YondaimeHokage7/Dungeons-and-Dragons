@@ -10,8 +10,6 @@
 class Player : public Entity
 {
 private:
-    CellIndex position;
-    int level;
     Race race;
     Inventory inventory;
 public:
@@ -28,7 +26,8 @@ public:
     void printInventory() const { inventory.print(); }
 
     void move(Map& map);
-};
 
+    void levelUp();
+};
 
 #endif // !__PLAYER_HPP
