@@ -42,13 +42,13 @@ public:
 
     int getTreasures() const { return treasures; }
 
-    //Stack* getPaths() const { return map.generatePaths(); }
-
     CellIndex* getConnections() const { return connections; }
 
     int getSize() const { return size; }
 
     void print() const;
+
+    char getElement(CellIndex index) const { return map.getElement(index); }
 
     void setElement(int i, int j, int newValue) { map.setElement(i, j, newValue); }
 };
