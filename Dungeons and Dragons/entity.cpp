@@ -1,7 +1,12 @@
 #include "entity.hpp"
 
-Entity::Entity(int _strength, int _mana, int _health) : strength(_strength), mana(_mana), health(_health)
+Entity::Entity(int _level, int _strength, int _mana, int _health, CellIndex _position) : level(_level), strength(_strength), mana(_mana), health(_health), position(0, 0)
 {}
+
+void Entity::setLevel(int _level)
+{
+    level = _level;
+}
 
 void Entity::setStrength(int _strength)
 {
