@@ -1,5 +1,6 @@
-#include "stack.hpp"
 #include <iostream>
+#include <cassert>
+#include "stack.hpp"
 
 Stack::Stack(int _capacity) : elements(nullptr), capacity(_capacity), top(-1)
 {
@@ -9,12 +10,7 @@ Stack::Stack(int _capacity) : elements(nullptr), capacity(_capacity), top(-1)
 
 Stack::Stack(const Stack& other) : elements(nullptr), capacity(other.capacity), top(other.top)
 {
-    delete[] elements;
-    elements = new CellIndex[other.capacity]{};
-    for (int i{0}; i < capacity; i++)
-    {
-        elements[i] = other.elements[i];
-    }
+    copyElements(other);
 }
 
 Stack& Stack::operator=(const Stack& other)
@@ -22,13 +18,9 @@ Stack& Stack::operator=(const Stack& other)
     if (this != &other)
     {
         delete[] elements;
-        elements = new CellIndex[other.capacity]{};
         capacity = other.capacity;
         top = other.top;
-        for (int i{0}; i < capacity; i++)
-        {
-            elements[i] = other.elements[i];
-        }
+        copyElements(other);
     }
     return *this;
 }
@@ -38,30 +30,39 @@ Stack::~Stack()
     delete[] elements;
 }
 
-void Stack::push(CellIndex element)
+void Stack::push(const CellIndex& element)
 {
-    if (!full())
-    {
-        elements[++top] = element;
-    }
-    else
+    assert(capacity > 0);
+    if (full())
     {
         resize();
-        elements[++top] = element;
     }
+    elements[++top] = element;
 }
 
 void Stack::resize()
 {
     int newCapacity{capacity * 2};
     CellIndex* newElements = new CellIndex[newCapacity];
-    for (int i{0}; i < newCapacity; i++)
+    for (int i{0}; i <= top; i++)
     {
         newElements[i] = elements[i];
     }
-    capacity = newCapacity;
     delete[] elements;
     elements = newElements;
+    capacity = newCapacity;
+}
+
+CellIndex Stack::pop()
+{
+    assert(!empty());
+    return elements[top--];
+}
+
+CellIndex& Stack::peek() const
+{
+    assert(!empty());
+    return elements[top];
 }
 
 bool Stack::full() const
@@ -71,27 +72,14 @@ bool Stack::full() const
 
 bool Stack::empty() const
 {
-    return top == -1;
+    return top == EMPTY_STACK;
 }
 
-CellIndex& Stack::peek() const
+void Stack::copyElements(const Stack& other)
 {
-    return elements[top];
-}
-
-CellIndex Stack::pop()
-{
-    if (!empty())
+    elements = new CellIndex[capacity];
+    for (int i{0}; i <= top; i++)
     {
-        return elements[top--];
+        elements[i] = other.elements[i];
     }
-    else
-    {
-        std::cerr << "The stack is empty!";
-    }
-}
-
-CellIndex* Stack::getElements() const
-{
-    return elements;
 }
