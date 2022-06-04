@@ -3,17 +3,19 @@
 #include "functions.hpp"
 #include <iostream>
 
-Matrix::Matrix(int _rows, int _columns) : rows(_rows), columns(_columns), matrix(nullptr)
+Matrix::Matrix(int _rows, int _columns) : rows(_rows), columns(_columns), matrix(nullptr), connections(nullptr)
 {
     allocate(_rows, _columns);
     addZeroes();
+    generateMaze();
 }
 
 Matrix::Matrix(const Matrix& other) : rows(other.rows), columns(other.columns)
 {
     deallocate();
     allocate(rows, columns);
-    copy(other);
+    generateMaze();
+    copyElements(other);
 }
 
 Matrix& Matrix::operator=(const Matrix& other)
@@ -24,7 +26,8 @@ Matrix& Matrix::operator=(const Matrix& other)
         rows = other.rows;
         columns = other.columns;
         allocate(rows, columns);
-        copy(other);
+        generateMaze();
+        copyElements(other);
     }
     return *this;
 }
@@ -34,7 +37,7 @@ Matrix::~Matrix()
     deallocate();
 }
 
-void Matrix::copy(const Matrix& other)
+void Matrix::copyElements(const Matrix& other)
 {
     for (int i{0}; i < rows; i++)
     {
@@ -52,6 +55,7 @@ void Matrix::deallocate()
         delete[] matrix[i];
     }
     delete[] matrix;
+    delete[] connections;
 }
 
 void Matrix::allocate(int _rows, int _columns)
@@ -74,19 +78,16 @@ void Matrix::addZeroes()
     }
 }
 
-void Matrix::print()
+void Matrix::stackToArray(Stack& stack)
 {
-    for (int i{0}; i < rows; i++)
+    connections = new CellIndex[stack.getTop() + 1];
+    for (int i{0}; stack.getTop() >= 0; i++)
     {
-        for (int j{0}; j < columns; j++)
-        {
-            std::cout << matrix[i][j];
-        }
-        std::cout << '\n';
+        connections[i] = stack.pop();
     }
 }
 
-Stack Matrix::generatePaths() const
+void Matrix::generateMaze()
 {
     Stack stack(columns * rows);
     Stack eligible(4);
@@ -144,10 +145,11 @@ Stack Matrix::generatePaths() const
     }
     paths.push(stack.peek());
     matrix[0][0] = 'X';
-    return paths;
+    numberOfConnections = paths.getTop() + 1;
+    stackToArray(paths);
 }
 
-void Matrix::setElement(int i, int j, char newValue)
+void Matrix::setElement(CellIndex index, char newValue)
 {
-    matrix[i][j] = newValue;
+    matrix[index.getRow()][index.getColumn()] = newValue;
 }

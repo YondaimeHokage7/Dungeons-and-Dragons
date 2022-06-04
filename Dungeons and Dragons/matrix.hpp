@@ -4,14 +4,25 @@
 class Matrix
 {
 private:
-    int columns;
     int rows;
+
+    int columns;
+
     char** matrix;
-    //void setMatrix(int _rows, int _columns);
-    void copy(const Matrix&);
+
+    CellIndex* connections;
+
+    int numberOfConnections;
+
     void deallocate();
+
     void allocate(int _rows, int _columns);
+
+    void copyElements(const Matrix&);
+
     void addZeroes();
+
+    void stackToArray(Stack& stack);
 public:
     Matrix(int _rows = 0, int _columns = 0);
 
@@ -21,17 +32,21 @@ public:
 
     ~Matrix();
 
-    char getMatrix(int i, int j) const { return matrix[i][j]; }
-
-    Stack generatePaths() const;
+    int getRows() const { return rows; }
 
     int getColumns() const { return columns; }
 
-    int getRows() const { return rows; }
-
-    void print();
-
-    void setElement(int i, int j, char newValue);
-
     char getElement(CellIndex index) const { return matrix[index.getRow()][index.getColumn()]; }
+
+    CellIndex* getConnections() const { return connections; }
+
+    int getNumberOfConnections() const { return numberOfConnections; }
+
+    void setElement(CellIndex index, char newValue);
+
+    void generateMaze();
+
 };
+
+//char getMatrix(int i, int j) const { return matrix[i][j]; }
+//void print();
