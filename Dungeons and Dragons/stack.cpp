@@ -5,7 +5,7 @@
 Stack::Stack(int _capacity) : elements(nullptr), capacity(_capacity), top(-1)
 {
     delete[] elements;
-    elements = new CellIndex[capacity]{};
+    elements = new CellIndex[capacity];
 }
 
 Stack::Stack(const Stack& other) : elements(nullptr), capacity(other.capacity), top(other.top)
