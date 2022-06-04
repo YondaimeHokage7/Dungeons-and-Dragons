@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include "functions.hpp"
 #include <iostream>
 
 
@@ -27,51 +28,65 @@ void Player::move(Map& map)
 {
     char answers[4][6]{"Up", "Down", "Left", "Right"};
     char direction[6];
-    //while(map.getElement(getPosition())!='.')
-    std::cout << "Where would you like to go?\n";
-    std::cin.getline(direction, 6, '\n');
-    if (myStrcmp(direction, answers[0]) && areConnected(getPosition(), getPosition().up(), map.getConnections(), map.getSize()))
+    while (getPosition() != CellIndex(map.getRows() - 1, map.getColumns() - 1))
     {
-        std::cout << "You moved up!\n";
-        map.setElement(getPosition().getRow(), getPosition().getColumn(), '.');
-        getPosition() = getPosition().up();
-        map.setElement(getPosition().getRow(), getPosition().getColumn(), 'X');
-        map.print();
-    }
-    else if (myStrcmp(direction, answers[1]) && areConnected(getPosition(), getPosition().down(), map.getConnections(), map.getSize()))
-    {
-        std::cout << "You moved down!\n";
-        map.setElement(getPosition().getRow(), getPosition().getColumn(), '.');
-        getPosition() = getPosition().down();
-        map.setElement(getPosition().getRow(), getPosition().getColumn(), 'X');
-        map.print();
-    }
-    else if (myStrcmp(direction, answers[2]) && areConnected(getPosition(), getPosition().left(), map.getConnections(), map.getSize()))
-    {
-        std::cout << "You moved left!\n";
-        map.setElement(getPosition().getRow(), getPosition().getColumn(), '.');
-        getPosition() = getPosition().left();
-        map.setElement(getPosition().getRow(), getPosition().getColumn(), 'X');
-        map.print();
-    }
-    else if (myStrcmp(direction, answers[3]) && areConnected(getPosition(), getPosition().right(), map.getConnections(), map.getSize()))
-    {
-        std::cout << "You moved right!\n";
-        map.setElement(getPosition().getRow(), getPosition().getColumn(), '.');
-        getPosition() = getPosition().right();
-        map.setElement(getPosition().getRow(), getPosition().getColumn(), 'X');
-        map.print();
-    }
-    else
-    {
-        if (myStrcmp(direction, answers[0]) || myStrcmp(direction, answers[1]) || myStrcmp(direction, answers[2]) || myStrcmp(direction, answers[3]))
+        std::cout << "Current coordinates: " << getPosition() << '\n';
+        std::cout << "Target: " << CellIndex(map.getRows() - 1, map.getColumns() - 1) << '\n';
+        std::cout << "Where would you like to go?\n";
+        std::cin.getline(direction, 6, '\n');
+        if (myStrcmp(direction, answers[0]) && areConnected(getPosition(), getPosition().up(), map.getConnections(), map.getSize()))
         {
-            std::cout << "You can't go there!";
+            std::cout << "You moved up!\n";
+            map.setElement(getPosition().getRow(), getPosition().getColumn(), '.');
+            getPosition() = getPosition().up();
+            map.setElement(getPosition().getRow(), getPosition().getColumn(), 'X');
+            map.print();
+        }
+        else if (myStrcmp(direction, answers[1]) && areConnected(getPosition(), getPosition().down(), map.getConnections(), map.getSize()))
+        {
+            std::cout << "You moved down!\n";
+            map.setElement(getPosition().getRow(), getPosition().getColumn(), '.');
+            getPosition() = getPosition().down();
+            map.setElement(getPosition().getRow(), getPosition().getColumn(), 'X');
+            map.print();
+        }
+        else if (myStrcmp(direction, answers[2]) && areConnected(getPosition(), getPosition().left(), map.getConnections(), map.getSize()))
+        {
+            std::cout << "You moved left!\n";
+            map.setElement(getPosition().getRow(), getPosition().getColumn(), '.');
+            getPosition() = getPosition().left();
+            map.setElement(getPosition().getRow(), getPosition().getColumn(), 'X');
+            map.print();
+        }
+        else if (myStrcmp(direction, answers[3]) && areConnected(getPosition(), getPosition().right(), map.getConnections(), map.getSize()))
+        {
+            std::cout << "You moved right!\n";
+            map.setElement(getPosition().getRow(), getPosition().getColumn(), '.');
+            getPosition() = getPosition().right();
+            map.setElement(getPosition().getRow(), getPosition().getColumn(), 'X');
+            map.print();
         }
         else
         {
-            std::cout << "Invalid input!";
+            if (myStrcmp(direction, answers[0]) || myStrcmp(direction, answers[1]) || myStrcmp(direction, answers[2]) || myStrcmp(direction, answers[3]))
+            {
+                std::cout << "You can't go there!";
+            }
+            else
+            {
+                std::cout << "Invalid input!";
+            }
         }
+    }
+    std::cout << "You've reached the target position!\n";
+    std::cout << "Would you like to go to the next level?\n";
+    char answer[4];
+    char yes[4]{"Yes"};
+    std::cin.getline(answer,4,'\n');
+    if (myStrcmp(answer, yes))
+    {
+        this->levelUp();
+        map.levelUp();
     }
 }
 
@@ -89,7 +104,7 @@ void Player::levelUp()
     {
         std::cout << "How many points would you like to add to your strength?\n";
         std::cin >> answer;
-        ensureValidity(answer,points);
+        ensureValidity(answer, points);
         strengthPoints = answer;
         points = points - strengthPoints;
 
@@ -101,7 +116,7 @@ void Player::levelUp()
             manaPoints = answer;
             points = points - manaPoints;
         }
-        
+
         if (points > 0)
         {
             std::cout << "How many points would you like to add to your mana?\n";
