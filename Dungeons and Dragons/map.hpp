@@ -51,6 +51,14 @@ public:
     char getElement(CellIndex index) const { return map.getElement(index); }
 
     void setElement(int i, int j, int newValue) { map.setElement(i, j, newValue); }
+
+    void addTreasures();
+
+    void addMonsters();
+
+    void levelUp();
+
+    Matrix getMap() { return map; }
 };
 
 #endif // !__MAP_HPP

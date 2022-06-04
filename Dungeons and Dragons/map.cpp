@@ -14,6 +14,8 @@ Map::Map(int _level) : level(_level), connections(nullptr)
     map = Matrix(height, width);
     paths = map.generatePaths();
     size = paths.getTop();
+    addMonsters();
+    addTreasures();
     connections = new CellIndex[paths.getTop() + 1];
     for (int i{0}; paths.getTop() >= 0; i++)
     {
@@ -100,18 +102,10 @@ void Map::printBorder() const
 void Map::print() const
 {
     printBorder();
-    //Stack* paths = getPaths();
-    //CellIndex* connections = new CellIndex[paths->getTop() + 1];
-    //int size{paths->getTop()};
-    //Copies the elements from the stack to the CallIndex array
-    //for (int i{0}; paths->getTop() >= 0; i++)
-    //{
-    //    connections[i] = paths->pop();
-    //}
-    //Prints the maze
     for (int i{0}; i < map.getRows() - 1; i++)
     {
-        std::cout << '#';//Prints the left border of the current row
+        //Prints the left border of the current row
+        std::cout << '#';
         //Checks whether two cells are connected and prints the appropriate symbol
         for (int j{0}; j < map.getColumns() - 1; j++)
         {
@@ -126,9 +120,10 @@ void Map::print() const
                 std::cout << '#';
             }
         }
-        //std::cout << " . #\n"; //Prints the last element of the row
-        std::cout << ' ' << map.getMatrix(i, getColumns() - 1) << " #\n"; //New version of line 89
-        std::cout << '#'; //prints the left border of the current border row
+        //Prints the last element of the row
+        std::cout << ' ' << map.getMatrix(i, getColumns() - 1) << " #\n"; 
+        //prints the left border of the current border row
+        std::cout << '#'; 
         //Prints the current border row
         for (int j{0}; j < map.getColumns() - 1; j++)
         {
@@ -152,13 +147,13 @@ void Map::print() const
         //Prints the last row of the map
         if (areConnected(CellIndex(i, map.getColumns() - 1), CellIndex(i + 1, map.getColumns() - 1), connections, size))
         {
-            std::cout << "   ";
+            std::cout << "   #"; // remove # if not working
         }
         else
         {
-            std::cout << "###";
+            std::cout << "####"; // remove # if not working and restore 154
         }
-        std::cout << '#';
+        //std::cout << '#';
         std::cout << '\n';
     }
     std::cout << '#';
@@ -176,12 +171,46 @@ void Map::print() const
             std::cout << '#';
         }
     }
-    //std::cout << " . #\n"; //prints the last element
-    std::cout << ' ' << map.getMatrix(map.getRows() - 1, map.getColumns() - 1) << " #\n"; //New version of line 139
+    //prints the last element
+    std::cout << ' ' << map.getMatrix(map.getRows() - 1, map.getColumns() - 1) << " #\n";
     printBorder();
-    //returns the elements from the array to the stack!
-    //for (int i{0}; i < size; size--)
-    //{
-        //paths->push(connections[size]);
-    //}
+}
+
+void Map::addTreasures()
+{
+    int _treasures{0};
+    while (_treasures < treasures)
+    {
+        CellIndex random(randomBetween(0, map.getRows() - 1), randomBetween(0, map.getColumns()));
+        if (getElement(random) == '.')
+        {
+            setElement(random.getRow(),random.getColumn(), 'T');
+            _treasures++;
+        }
+    }
+}
+
+void Map::addMonsters()
+{
+    int _monsters{0};
+    while (_monsters < monsters)
+    {
+        CellIndex random(randomBetween(0, map.getRows() - 1), randomBetween(0, map.getColumns()));
+        if (getElement(random) == '.')
+        {
+            setElement(random.getRow(), random.getColumn(), 'M');
+            _monsters++;
+        }
+    }
+}
+
+void Map::levelUp()
+{
+    Map newmap(getLevel() + 1);
+    level = newmap.getLevel();
+    monsters = newmap.getMonsters();
+    treasures = newmap.getTreasures();
+    map = newmap.getMap();
+    //paths = newmap.getMap();
+
 }
