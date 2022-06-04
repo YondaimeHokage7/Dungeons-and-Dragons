@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="armor.cpp" />
     <ClCompile Include="cellIndex.cpp" />
+    <ClCompile Include="commandLine.cpp" />
     <ClCompile Include="dragon.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="functions.cpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="armor.hpp" />
     <ClInclude Include="cellIndex.hpp" />
+    <ClInclude Include="commandLine.hpp" />
     <ClInclude Include="dragon.hpp" />
     <ClInclude Include="entity.hpp" />
     <ClInclude Include="functions.hpp" />

@@ -72,6 +72,9 @@
     <ClCompile Include="cellIndex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="commandLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entity.hpp">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cellIndex.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="commandLine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
