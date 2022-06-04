@@ -16,8 +16,6 @@ public:
 
     void addJ() { ++column; }
 
-    bool operator==(CellIndex& other) { return row == other.row && column == other.column; }
-
     CellIndex up() const { return CellIndex(row - 1, column); }
 
     CellIndex down() const { return CellIndex(row + 1, column); }
@@ -28,4 +26,6 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& os, const CellIndex& cindex);
+bool operator!=(const CellIndex& index1, const CellIndex& index2);
+bool operator==(CellIndex& index1, CellIndex& index2);
 
