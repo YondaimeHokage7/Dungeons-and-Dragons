@@ -177,7 +177,6 @@ void Map::addMonsters()
 void Map::levelUp()
 {
     Map newmap(getLevel() + 1);
-    //this->addZeroes();
     *this = newmap;
 }
 
