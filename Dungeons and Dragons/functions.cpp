@@ -9,7 +9,7 @@ int randomBetween(int num1, int num2)
     return std::uniform_int_distribution<>(num1, num2)(gen);
 }
 
-int myStrlen(const char* string)
+int myStrlen(char* string)
 {
     int counter{0};
     for (int i{0}; string[i] != '\0'; i++)
@@ -19,7 +19,7 @@ int myStrlen(const char* string)
     return counter;
 }
 
-bool myStrcmp(const char* string1, const char* string2)
+bool myStrcmp(char* string1, char* string2)
 {
     bool result{true};
     if (myStrlen(string1) != myStrlen(string2))
