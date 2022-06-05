@@ -1,16 +1,22 @@
-#ifndef __TREASURE_HPP
-#define __TREASURE_HPP
+#pragma once
 
+#include <iostream>
 #include "item.hpp"
+#include "map.hpp"
+
 
 class Treasure
 {
 private:
     Item item;
 public:
-    Treasure();
+    Treasure(const Map& map);
 
-    Item getItem() const { return item; }
+    const Item& getItem() const { return item; }
+
+    void generateNext(int level);
+
+    friend std::istream& operator>>(std::istream& is, Treasure& _item);
 };
 
-#endif // !__TREASURE_HPP
+std::ostream& operator << (std::ostream& os, Treasure& _item);
