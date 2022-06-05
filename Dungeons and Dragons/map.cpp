@@ -6,6 +6,8 @@
 
 Map::Map(int _level) : level(_level), monsters(getFileStat("Monsters", _level)), treasures(getFileStat("Treasures", _level)), Matrix(getFileStat("Rows", _level), getFileStat("Columns", _level))
 {
+    addMonsters();
+    addTreasures();
     if (level >= 2)
     {
         generateNextFile();
@@ -60,7 +62,6 @@ void Map::generateNextFile() const
 
 void Map::printBorder() const
 {
-    //Upper border
     for (int i{0}; i < getColumns() * 3 + (getColumns() - 1) + 2; i++)
     {
         std::cout << '#';
@@ -173,16 +174,12 @@ void Map::addMonsters()
     }
 }
 
-/*void Map::levelUp()
+void Map::levelUp()
 {
     Map newmap(getLevel() + 1);
-    level = newmap.getLevel();
-    monsters = newmap.getMonsters();
-    treasures = newmap.getTreasures();
-    map = newmap.getMap();
-    //paths = newmap.getMap();
-
-}*/
+    //this->addZeroes();
+    *this = newmap;
+}
 
 
 

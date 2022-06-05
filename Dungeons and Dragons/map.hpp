@@ -36,5 +36,7 @@ public:
     void addTreasures();
 
     void addMonsters();
+
+    void levelUp();
 };
 #endif // !__MAP_HPP
