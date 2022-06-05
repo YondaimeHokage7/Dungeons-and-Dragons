@@ -83,11 +83,12 @@ void Player::move(Map& map)
     char answer[4];
     char yes[4]{"Yes"};
     std::cin.getline(answer, 4, '\n');
-    //if (myStrcmp(answer, yes))
-    //{
-    //    this->levelUp();
-        //map.levelUp();
-    //}
+    if (myStrcmp(answer, yes))
+    {
+        this->levelUp();
+        map.levelUp();
+    }
+    map.print();
 }
 
 void Player::levelUp()
