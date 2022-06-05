@@ -20,9 +20,9 @@ private:
 
     void copyElements(const Matrix&);
 
-    void addZeroes();
-
     void stackToArray(Stack& stack);
+protected:
+    void addZeroes();
 public:
     Matrix(int _rows = 0, int _columns = 0);
 
@@ -45,6 +45,8 @@ public:
     void setElement(CellIndex index, char newValue);
 
     void generateMaze();
+
+    //void setMatrix();
 
 };
 

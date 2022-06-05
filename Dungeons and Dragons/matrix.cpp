@@ -6,7 +6,7 @@
 Matrix::Matrix(int _rows, int _columns) : rows(_rows), columns(_columns), matrix(nullptr), connections(nullptr)
 {
     allocate(_rows, _columns);
-    addZeroes();
+    //addZeroes();
     generateMaze();
 }
 
@@ -65,6 +65,7 @@ void Matrix::allocate(int _rows, int _columns)
     {
         matrix[i] = new char[_columns];
     }
+    addZeroes();
 }
 
 void Matrix::addZeroes()
@@ -153,3 +154,8 @@ void Matrix::setElement(CellIndex index, char newValue)
 {
     matrix[index.getRow()][index.getColumn()] = newValue;
 }
+
+//void Matrix::setMatrix()
+//{
+
+//}
