@@ -1,5 +1,4 @@
-#ifndef __ENTITY_HPP
-#define __ENTITY_HPP
+#pragma once
 
 #include "cellIndex.hpp"
 
@@ -22,6 +21,8 @@ public:
 
     int getHealth() const { return health; }
 
+    void setPosition(CellIndex _index);
+
     virtual void attack(Entity& target) = 0;
 
     virtual void castSpell(Entity& target) = 0;
@@ -40,7 +41,3 @@ public:
 
     CellIndex& getPosition() { return position; }
 };
-
-
-#endif // !__ENTITY_HPP
-
