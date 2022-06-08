@@ -16,8 +16,3 @@ std::ostream& operator <<(std::ostream& os, const Item& item)
 {
     return os << item.getType() << '\n' << item.getName() << '\n' << item.getModifier() << '\n';
 }
-
-void Item::setModifier(int _modifier)
-{
-    modifier = _modifier;
-}
