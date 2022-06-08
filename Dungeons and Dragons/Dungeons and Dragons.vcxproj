@@ -135,6 +135,7 @@
     <ClCompile Include="dragon.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="functions.cpp" />
+    <ClCompile Include="gameplayFunctions.cpp" />
     <ClCompile Include="human.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="dragon.hpp" />
     <ClInclude Include="entity.hpp" />
     <ClInclude Include="functions.hpp" />
+    <ClInclude Include="gameplayFunctions.hpp" />
     <ClInclude Include="human.hpp" />
     <ClInclude Include="inventory.hpp" />
     <ClInclude Include="item.hpp" />
