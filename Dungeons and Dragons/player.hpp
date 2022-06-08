@@ -1,9 +1,9 @@
 #ifndef __PLAYER_HPP
 #define __PLAYER_HPP
 
-#include "entity.hpp" //OK
-#include "race.hpp" //OK
-#include "inventory.hpp" // OK
+#include "entity.hpp"
+#include "race.hpp"
+#include "inventory.hpp"
 #include "map.hpp"
 #include "dragon.hpp"
 
