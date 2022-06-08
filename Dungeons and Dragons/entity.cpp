@@ -23,7 +23,3 @@ void Entity::setHealth(int _health)
     health = _health;
 }
 
-void Entity::setPosition(CellIndex _index)
-{
-    position = _index;
-}

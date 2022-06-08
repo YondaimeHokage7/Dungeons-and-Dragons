@@ -21,15 +21,7 @@ public:
 
     int getHealth() const { return health; }
 
-    void setPosition(CellIndex _index);
-
-    virtual void attack(Entity& target) = 0;
-
-    virtual void castSpell(Entity& target) = 0;
-
-    virtual void takeDamage(int damage) = 0;
-
-    virtual void levelUp() = 0;
+    void setPosition(CellIndex _index) { position = _index; }
 
     void setLevel(int _level);
 
@@ -40,4 +32,12 @@ public:
     void setHealth(int _health);
 
     CellIndex& getPosition() { return position; }
+
+    virtual void attack(Entity& target) = 0;
+
+    virtual void castSpell(Entity& target) = 0;
+
+    virtual void takeDamage(int damage) = 0;
+
+    virtual void levelUp() = 0;
 };
