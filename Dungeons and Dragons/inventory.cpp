@@ -1,6 +1,6 @@
 #include <iostream>
 #include "inventory.hpp"
-#include"weapon.hpp"
+#include "weapon.hpp"
 #include "spell.hpp"
 
 Inventory::Inventory() : hasWeapon(true), hasSpell(true), hasArmor(false)
