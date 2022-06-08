@@ -11,13 +11,15 @@ private:
 public:
     Dragon(int _level = 1, CellIndex _position = (0, 0));
 
-    void attack(Entity&);
+    virtual void attack(Entity&);
 
-    void castSpell(Entity&);
+    virtual void castSpell(Entity&);
 
-    void takeDamage(int damage);
+    virtual void takeDamage(int damage);
 
     void levelUp();
+
+    void engage(Entity& entity);
 };
 
 #endif // !__DRAGON_HPP
