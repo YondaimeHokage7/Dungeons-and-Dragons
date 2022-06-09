@@ -3,17 +3,28 @@
 #include <fstream>
 #include <iostream>
 
-// The idea for extern is from here: https://stackoverflow.com/a/19929727
-extern std::string currentlyOpened;
-extern std::string command;
-extern std::string arguments;
+class CommandLine
+{
+private:
+    std::string currentlyOpened;
+    std::string command;
+    std::string arguments;
+public:
+    CommandLine();
 
-void userInput();
-void open();
-void close();
-void save();
-//void saveAs();
-void help();
-void exitProgram();
-void executeCommand();
+    void userInput();
+
+    void open();
+    void close();
+    void save();
+    //void saveAs();
+    void help();
+    void exitProgram();
+
+    void executeCommand();
+
+    std::string getCurrentlyOpened() const { return currentlyOpened; }
+    std::string getCommand() const { return command; }
+    std::string getArguments() const { return arguments; }
+};
 

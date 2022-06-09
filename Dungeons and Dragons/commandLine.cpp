@@ -1,16 +1,19 @@
 #include "commandLine.hpp"
 
+CommandLine::CommandLine() : command(""), arguments(""), currentlyOpened("")
+{}
 
-void userInput()
+void CommandLine::userInput()
 {
     std::cout << "Enter a command: \n";
     std::cin >> command;
     std::getline(std::cin, arguments);
     arguments.erase(0,1);
     executeCommand();
+
 }
 
-void executeCommand()
+void CommandLine::executeCommand()
 {
     if (command == "open")
     {
@@ -38,7 +41,7 @@ void executeCommand()
     }
 }
 
-void open()
+void CommandLine::open()
 {
     if (currentlyOpened != "")
     {
@@ -68,7 +71,7 @@ void open()
     currentlyOpened = arguments;
 }
 
-void close()
+void CommandLine::close()
 {
     if (currentlyOpened != "")
     {
@@ -81,7 +84,7 @@ void close()
     }
 }
 
-void save()
+void CommandLine::save()
 {
     if (currentlyOpened == "")
     {
@@ -93,7 +96,7 @@ void save()
     }
 }
 
-void help()
+void CommandLine::help()
 {
     std::cout << "The following commands are supported: \n";
     std::cout << "open <file> \t Opens <file>\n";
@@ -104,7 +107,7 @@ void help()
     std::cout << "exit \t\t Exits the program\n";
 }
 
-void exitProgram()
+void CommandLine::exitProgram()
 {
     if (currentlyOpened != "")
     {
