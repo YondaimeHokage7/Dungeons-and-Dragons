@@ -1,9 +1,10 @@
 #pragma once
-
 #include <iostream>
 #include "item.hpp"
 #include "map.hpp"
+#include <string>
 
+const std::string treasureFile = "treasure";
 
 class Treasure
 {

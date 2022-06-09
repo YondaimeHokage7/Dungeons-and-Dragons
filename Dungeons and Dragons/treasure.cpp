@@ -6,7 +6,7 @@
 Treasure::Treasure(const Map& map)
 {
     std::stringstream fileNameStream;
-    fileNameStream << prefix << map.getLevel() << suffix;
+    fileNameStream << treasureFile << map.getLevel() << suffix;
     std::string fileName = fileNameStream.str();
     std::ifstream stats(fileName, std::ios::in);
     int itemNum{randomBetween(0, 8)};
@@ -16,6 +16,7 @@ Treasure::Treasure(const Map& map)
         Item fileItem;
         stats >> fileItem;
         counter++;
+        item = fileItem;
     }
     std::stringstream newName;
     newName << treasure << map.getLevel() + 1 << extenstion;
@@ -38,16 +39,19 @@ void Treasure::generateNext(int level)
     std::string oldFileName = oldNameStream.str();
     std::ofstream nextLevel(newFileName, std::ios::out);
     std::ifstream previousLevel(oldFileName, std::ios::in);
+    Item defaultItem("A completely useless item", "");
     while (previousLevel.good())
     {
         Item placeholder;
         previousLevel >> placeholder;
-        placeholder.setModifier(placeholder.getModifier() + 0.5 + (double)15 / 100 * placeholder.getModifier()); //Increase item modifier by 15%
-        nextLevel << placeholder;
+        if (placeholder != defaultItem)
+        {
+            placeholder.setModifier(placeholder.getModifier() + 0.5 + (double)15 / 100 * placeholder.getModifier()); //Increase item modifier by 15%
+            nextLevel << placeholder;
+        }
     }
 }
 
-//Not working properly
 std::istream& operator>>(std::istream& is, Treasure& treasure)
 {
     return is >> treasure.item;
