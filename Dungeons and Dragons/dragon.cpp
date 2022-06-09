@@ -7,7 +7,7 @@ Dragon::Dragon(int _level, CellIndex _position) : scales(15), Entity(_level, (_l
 {
     for (int i{0}; i < _level - 1; i++)
     {
-        levelUp();
+        scales = scales + (double)5 / 100 * scales;
     }
     numberOfDragons++;
 }
