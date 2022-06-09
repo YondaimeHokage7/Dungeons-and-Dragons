@@ -30,10 +30,12 @@ public:
     bool spellCheck() { return hasSpell; }
     bool armorCheck() { return hasArmor; }
 
-    //void add(const Item& item);
+    void add(const Item& item);
 
     void print() const;
-    //void addArmor();
+    void addArmor(const Item& armor);
+    void addSpell(const Item& spell);
+    void addWeapon(const Item& weapon);
 };
 
 
