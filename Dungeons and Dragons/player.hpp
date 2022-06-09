@@ -13,6 +13,7 @@ class Player : public Entity
 private:
     int bonusStrength;
     int bonusMana;
+    int bonusHealth;
     int armor;
     Race race;
     Inventory inventory;

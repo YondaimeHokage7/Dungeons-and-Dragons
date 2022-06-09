@@ -3,7 +3,7 @@
 #include "treasure.hpp"
 #include "gameplayFunctions.hpp"
 
-Player::Player(Race _race) : race(_race), armor(0), Entity(1, _race.getRaceStrength(), _race.getRaceMana(), _race.getRaceHealth(), (0, 0))
+Player::Player(Race _race) : race(_race), armor(0), bonusHealth(0), Entity(1, _race.getRaceStrength(), _race.getRaceMana(), _race.getRaceHealth(), (0, 0))
 {
     bonusStrength = 0.5 + (double)inventory.getStrengthModifier() / 100 * getStrength();
     bonusMana = 0.5 + (double)inventory.getSpellModifier() / 100 * getMana();
@@ -37,10 +37,8 @@ void Player::move(Map& map)
     char answers[4][6]{"Up", "Down", "Left", "Right"};
     char direction[6];
     char answer[4];
-    while (/*getPosition() != CellIndex(map.getRows() - 1, map.getColumns() - 1)*/!myStrcmp(direction, "Exit"))
+    while (!myStrcmp(direction, "Exit"))
     {
-        //std::cout << "Current coordinates: " << getPosition() << '\n';
-        //std::cout << "Target: " << CellIndex(map.getRows() - 1, map.getColumns() - 1) << '\n';
         std::cout << "Where would you like to go?\n";
         std::cin.getline(direction, 6, '\n');
         if (myStrcmp(direction, answers[0]) && areConnected(getPosition(), getPosition().up(), map.getConnections(), map.getNumberOfConnections()))
@@ -49,41 +47,6 @@ void Player::move(Map& map)
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), '.');
             setPosition(getPosition().up());
             handleLocation(map);
-            /*else if (getPosition() == 'T')
-            {
-                char keep[4];
-                std::cout << "You've found a treasure!\n";
-                Treasure treasure(map);
-                std::cout << "The treasure you've found is: \n";
-                std::cout << "Would you like to keep it?\n";
-                if (myStrcmp(keep, "Yes"))
-                {
-                    if (treasure.getItem().getType() == "Weapon")
-                    {
-                        inventory.setWeapon(treasure.getItem());
-                        setStrength(getStrength() - bonusStrength);
-                        bonusStrength = (double)treasure.getItem().getModifier() / 100 * getStrength();
-                        setStrength(getStrength() + bonusStrength);
-                    }
-                    else if (treasure.getItem().getType() == "Spell")
-                    {
-                        inventory.setSpell(treasure.getItem());
-                        setMana(getMana() - bonusMana);
-                        bonusMana = (double)treasure.getItem().getModifier() / 100 * getMana();
-                        setMana(getMana() + bonusMana);
-                    }
-                    else if (treasure.getItem().getType() == "Armor")
-                    {
-                        inventory.setArmor(treasure.getItem());
-                        armor = 0;
-                        armor = treasure.getItem().getModifier();
-                    }
-                }
-                else if (myStrcmp(keep, "No"))
-                {
-                    std::cout << "The item was destroyed!\n";
-                }
-            }*/
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), 'X');
             map.print();
 
@@ -96,17 +59,6 @@ void Player::move(Map& map)
             handleLocation(map);
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), 'X');
             map.print();
-            /*if (getPosition() == CellIndex(map.getRows() - 1, map.getColumns() - 1))
-            {
-                std::cout << "You've reached the target location.\n";
-                std::cout << "Would you like to go to the enxt level?";
-                std::cin >> answer;
-                if (myStrcmp(answer, "Yes"))
-                {
-                    this->levelUp();
-                    map.levelUp();
-                }
-            }*/
         }
         else if (myStrcmp(direction, answers[2]) && areConnected(getPosition(), getPosition().left(), map.getConnections(), map.getNumberOfConnections()))
         {
@@ -133,15 +85,10 @@ void Player::move(Map& map)
             {
                 std::cout << "You can't go there!";
             }
-            else if (myStrcmp(direction, "Exit"))
-            {
-                //
-            }
             else
             {
                 std::cout << "Invalid input!";
                 std::cin.clear();
-
             }
         }
     }
@@ -164,7 +111,6 @@ void Player::levelUp()
         ensureValidity(answer, points);
         strengthPoints = answer;
         points = points - strengthPoints;
-
         if (points > 0)
         {
             std::cout << "How many points would you like to add to your mana?\n";
@@ -173,13 +119,12 @@ void Player::levelUp()
             manaPoints = answer;
             points = points - manaPoints;
         }
-
         if (points > 0)
         {
-            std::cout << "How many points would you like to add to your mana?\n";
+            std::cout << "How many points would you like to add to your health?\n";
             std::cin >> answer;
             ensureValidity(answer, points);
-            healthPoints = answer;
+            bonusHealth = healthPoints = answer;
             points = points - healthPoints;
         }
     }
@@ -202,10 +147,6 @@ void Player::specialCheck(Map& map)
         std::cout << "You've found a treasure!\n";
         Treasure treasure(map);
         foundTreasure(treasure);
-    }
-    else if (map.getElement(getPosition()) == '.')
-    {
-        std::cout << "An ordinary place\n";
     }
 }
 
@@ -264,10 +205,10 @@ void Player::foundTreasure(Treasure& treasure)
 
 void Player::restoreHealth()
 {
-    if (getHealth() > 0 && getHealth() < this->getRace().getRaceHealth() / 2)
+    if (getHealth() > 0 && getHealth() < (int)(0.5 + (double)this->getRace().getRaceHealth() + bonusHealth) / 2)
     {
-        setHealth(this->getRace().getRaceHealth() / 2);
-        std::cout << "Your health was restored to " << this->getRace().getRaceHealth() / 2 << '\n';
+        setHealth(0.5 + (double)this->getRace().getRaceHealth() / 2);
+        std::cout << "Your health was restored to " << (int)((double)(this->getRace().getRaceHealth() + bonusHealth) / 2) << '\n';
     }
 }
 
