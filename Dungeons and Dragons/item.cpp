@@ -9,10 +9,23 @@ std::istream& operator>>(std::istream& is, Item& item)
     std::getline(is, item.type);
     std::getline(is, item.name);
     is >> item.modifier;
+    is.ignore();
     return is;
 }
 
 std::ostream& operator <<(std::ostream& os, const Item& item)
 {
-    return os << item.getType() << '\n' << item.getName() << '\n' << item.getModifier() << '\n';
+    if(&os == &std::cout)
+    {
+        return os << "Type: " << item.getType() << '\n' << "Name: " << item.getName() << '\n' << "Modifier: " << item.getModifier() << '\n';
+    }
+    else
+    {
+        return os << item.getType() << '\n' << item.getName() << '\n' << item.getModifier() << '\n';
+    }
+}
+
+bool operator!=(Item& item1, Item& item2)
+{
+    return item1.getType() != item2.getType() || item1.getName() != item2.getName() || item1.getModifier() != item2.getModifier();
 }

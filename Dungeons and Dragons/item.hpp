@@ -25,7 +25,7 @@ public:
 
     //void setName(std::string _name) { name = _name; }
 
-   // void setType(std::string _type) { type = _type; }
+    // void setType(std::string _type) { type = _type; }
 
     //void setModifier(int _modifier) { modifier = _modifier; }
 
@@ -33,3 +33,5 @@ public:
 };
 
 std::ostream& operator << (std::ostream& os, const Item& item);
+
+bool operator!=(Item& item1, Item& item2);
