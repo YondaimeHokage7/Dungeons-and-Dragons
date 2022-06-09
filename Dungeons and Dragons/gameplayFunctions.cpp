@@ -25,5 +25,6 @@ void battle(Player& player, Dragon& dragon)
                 dragon.engage(player);
             }
         }
-    }
+    } 
+    player.restoreHealth();
 }
