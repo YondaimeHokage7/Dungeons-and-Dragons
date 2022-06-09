@@ -1,0 +1,27 @@
+Weapon
+A Giant Claymore
+25
+Spell
+Phoenix Flames
+23
+Armor
+Mail Armor
+20
+Weapon
+Rusty Old Sword
+1
+Spell
+Polymorph
+22
+Armor
+Shiny Plate Armor
+23
+Weapon
+Windrunner's Bow
+27
+Spell
+A Focus
+2
+Armor
+Flimsy Cloth Tunic
+3
