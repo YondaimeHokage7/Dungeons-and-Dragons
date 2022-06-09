@@ -59,7 +59,7 @@ void Inventory::addArmor(const Item& armor)
     {
         char answer[4];
         std::cout << "You already have an armor in your inventory!\n";
-        std::cout << "Would you like to replace " << items[2].getName() << " with " << armor.getName();
+        std::cout << "Would you like to replace " << items[2].getName() << " with " << armor.getName() << '\n';
         std::cin.getline(answer, 4, '\n');
         if (myStrcmp(answer, "Yes"))
         {
@@ -84,7 +84,7 @@ void Inventory::addSpell(const Item& spell)
     {
         char answer[4];
         std::cout << "You already have a spell in your inventory!\n";
-        std::cout << "Would you like to replace " << items[1].getName() << " with " << spell.getName();
+        std::cout << "Would you like to replace " << items[1].getName() << " with " << spell.getName() << '\n';
         std::cin.getline(answer, 4, '\n');
         if (myStrcmp(answer,"Yes"))
         {
