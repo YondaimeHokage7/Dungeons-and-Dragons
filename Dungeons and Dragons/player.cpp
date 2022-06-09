@@ -1,3 +1,4 @@
+#include "human.hpp"
 #include "player.hpp"
 #include "treasure.hpp"
 #include "gameplayFunctions.hpp"
@@ -22,8 +23,8 @@ void Player::castSpell(Entity& target)
 
 void Player::takeDamage(int damage)
 {
-    setHealth(0.5 + (getHealth() - damage - ((double)inventory.getArmorModifier() / 100 * damage)));
-    std::cout << "You took " << (int)(damage - ((double)inventory.getArmorModifier() / 100 * damage)) << " damage\n";
+    setHealth(0.5 + (getHealth() - (damage - ((double)inventory.getArmorModifier() / 100 * damage))));
+    std::cout << "You took " << (int)(0.5 + damage - ((double)inventory.getArmorModifier() / 100 * damage)) << " damage\n";
 }
 
 void Player::printInventory() const
@@ -192,14 +193,15 @@ void Player::specialCheck(Map& map)
 {
     if (map.getElement(getPosition()) == 'M')
     {
-        std::cout << "Yikes! There is a dragon here!\n";
+        std::cout << "Yikes! A dragon!\n";
         Dragon dragon(map.getLevel(), getPosition());
         battle(*this, dragon);
-        //if player.getHealth() <= 0 
     }
     else if (map.getElement(getPosition()) == 'T')
     {
         std::cout << "You've found a treasure!\n";
+        Treasure treasure(map);
+        foundTreasure(treasure);
     }
     else if (map.getElement(getPosition()) == '.')
     {
@@ -210,7 +212,13 @@ void Player::specialCheck(Map& map)
 void Player::handleLocation(Map& map)
 {
     specialCheck(map);
-    if (getPosition() == CellIndex(map.getRows() - 1, map.getColumns() - 1))
+    bool isDead{false};
+    if (getHealth() <= 0)
+    {
+        std::cout << "You lost!\n";
+        isDead = true;
+    }
+    if (getPosition() == CellIndex(map.getRows() - 1, map.getColumns() - 1) && !isDead)
     {
         char answer[4];
         std::cout << "You've reached the target location.\n";
@@ -221,7 +229,6 @@ void Player::handleLocation(Map& map)
             this->levelUp();
             map.levelUp();
         }
-        map.print();
     }
 }
 
@@ -239,4 +246,32 @@ void Player::engage(Entity& entity)
     {
         castSpell(entity);
     }
+}
+
+void Player::foundTreasure(Treasure& treasure)
+{
+    char answer[4];
+    std::cout << treasure.getItem();
+    std::cout << "Your inventory: \n";
+    printInventory();
+    std::cout << "Would you like to keep " << treasure.getItem().getName() << "?\n";
+    std::cin.getline(answer, 4, '\n');
+    if (myStrcmp(answer, "Yes"))
+    {
+        inventory.add(treasure.getItem());
+    }
+}
+
+void Player::restoreHealth()
+{
+    if (getHealth() > 0 && getHealth() < this->getRace().getRaceHealth() / 2)
+    {
+        setHealth(this->getRace().getRaceHealth() / 2);
+        std::cout << "Your health was restored to " << this->getRace().getRaceHealth() / 2 << '\n';
+    }
+}
+
+void Player::exit()
+{
+    //TODO: exit game 
 }

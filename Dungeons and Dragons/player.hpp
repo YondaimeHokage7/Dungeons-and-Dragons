@@ -6,6 +6,7 @@
 #include "inventory.hpp"
 #include "map.hpp"
 #include "dragon.hpp"
+#include "treasure.hpp"
 
 class Player : public Entity
 {
@@ -18,7 +19,7 @@ private:
 public:
     Player(Race _race);
 
-    std::string getRace() const { return race.getName(); }
+    Race& getRace() { return race; }
 
     virtual void attack(Entity& target);
 
@@ -37,6 +38,12 @@ public:
     void handleLocation(Map& map);
 
     void engage(Entity& dragon);
+
+    void foundTreasure(Treasure& treasure);
+
+    void restoreHealth();
+
+    void exit();
 };
 
 
