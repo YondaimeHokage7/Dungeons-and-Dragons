@@ -1,14 +1,54 @@
-#include "human.hpp"
+#include "warrior.hpp"
 #include "player.hpp"
 #include "treasure.hpp"
 #include "gameplayFunctions.hpp"
 
-Player::Player(Race _race) : race(_race), armor(0), bonusHealth(0), Entity(1, _race.getRaceStrength(), _race.getRaceMana(), _race.getRaceHealth(), (0, 0))
+Player::Player(Race _race) : race(_race), bonusHealth(0), Entity(1, _race.getRaceStrength(), _race.getRaceMana(), _race.getRaceHealth(), (0, 0))
 {
     bonusStrength = 0.5 + (double)inventory.getStrengthModifier() / 100 * getStrength();
     bonusMana = 0.5 + (double)inventory.getSpellModifier() / 100 * getMana();
     setStrength(0.5 + (getStrength() + bonusStrength));
     setMana(0.5 + (getMana() + bonusMana));
+}
+
+void Player::start(Map& map, bool newCharacter)
+{
+    if (newCharacter)
+    {
+        std::cout << "Please choose a race\n";
+        std::cout << "Available races: \n";
+        std::cout << "Human\n";
+        std::cout << "Mage\n";
+        std::cout << "Warrior\n";
+        std::string race;
+        std::getline(std::cin, race);
+        //std::cin >> race;
+        if (race == "Human")
+        {
+            Player newplayer = Human();
+            *this = newplayer;
+        }
+        else if (race == "Mage")
+        {
+            Player newplayer = Mage();
+            *this = newplayer;
+        }
+        else if (race == "Warrior")
+        {
+            Player newPlayer = Warrior();
+            *this = newPlayer;
+        }
+        while (race != "Human" && race != "Mage" && race != "Warrior")
+        {
+            std::cout << "That's not a valid race!\n";
+            std::cout << "Enter a new race:\n";
+            //std::cin >> race;
+            std::getline(std::cin, race);
+        }
+        std::cout << "Successfully created a " << this->getRace().getName() << '\n';
+
+    }
+    this->move(map);
 }
 
 void Player::attack(Entity& target)
@@ -27,68 +67,63 @@ void Player::takeDamage(int damage)
     std::cout << "You took " << (int)(0.5 + damage - ((double)inventory.getArmorModifier() / 100 * damage)) << " damage\n";
 }
 
-void Player::printInventory() const
+void Player::printInventory(std::ostream& os) const
 {
-    inventory.print();
+    inventory.print(os);
 }
 
 void Player::move(Map& map)
 {
-    char answers[4][6]{"Up", "Down", "Left", "Right"};
-    char direction[6];
-    char answer[4];
-    while (!myStrcmp(direction, "Exit"))
+    std::string answers[4]{"Up", "Down", "Left", "Right"};
+    std::string direction;
+    std::string answer;
+    while (direction != "Exit")
     {
+        map.print();
         std::cout << "Where would you like to go?\n";
-        std::cin.getline(direction, 6, '\n');
-        if (myStrcmp(direction, answers[0]) && areConnected(getPosition(), getPosition().up(), map.getConnections(), map.getNumberOfConnections()))
+        std::getline(std::cin, direction);
+        //std::cin >> direction;
+        if (direction == answers[0] && areConnected(getPosition(), getPosition().up(), map.getConnections(), map.getNumberOfConnections()))
         {
             std::cout << "You moved up!\n";
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), '.');
             setPosition(getPosition().up());
             handleLocation(map);
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), 'X');
-            map.print();
-
         }
-        else if (myStrcmp(direction, answers[1]) && areConnected(getPosition(), getPosition().down(), map.getConnections(), map.getNumberOfConnections()))
+        else if (direction == answers[1] && areConnected(getPosition(), getPosition().down(), map.getConnections(), map.getNumberOfConnections()))
         {
             std::cout << "You moved down!\n";
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), '.');
             setPosition(getPosition().down());
             handleLocation(map);
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), 'X');
-            map.print();
         }
-        else if (myStrcmp(direction, answers[2]) && areConnected(getPosition(), getPosition().left(), map.getConnections(), map.getNumberOfConnections()))
+        else if (direction == answers[2] && areConnected(getPosition(), getPosition().left(), map.getConnections(), map.getNumberOfConnections()))
         {
             std::cout << "You moved left!\n";
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), '.');
             setPosition(getPosition().left());
             handleLocation(map);
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), 'X');
-            map.print();
-
         }
-        else if (myStrcmp(direction, answers[3]) && areConnected(getPosition(), getPosition().right(), map.getConnections(), map.getNumberOfConnections()))
+        else if (direction == answers[3] && areConnected(getPosition(), getPosition().right(), map.getConnections(), map.getNumberOfConnections()))
         {
             std::cout << "You moved right!\n";
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), '.');
             setPosition(getPosition().right());
             handleLocation(map);
             map.setElement(CellIndex(getPosition().getRow(), getPosition().getColumn()), 'X');
-            map.print();
         }
         else
         {
-            if (myStrcmp(direction, answers[0]) || myStrcmp(direction, answers[1]) || myStrcmp(direction, answers[2]) || myStrcmp(direction, answers[3]))
+            if (direction == answers[0] || direction == answers[1] || direction == answers[2] || direction == answers[3])
             {
                 std::cout << "You can't go there!";
             }
             else
             {
-                std::cout << "Invalid input!";
-                std::cin.clear();
+                std::cout << "Invalid input!\n";
             }
         }
     }
@@ -141,12 +176,14 @@ void Player::specialCheck(Map& map)
         std::cout << "Yikes! A dragon!\n";
         Dragon dragon(map.getLevel(), getPosition());
         battle(*this, dragon);
+        map.remainingMonsters--;
     }
     else if (map.getElement(getPosition()) == 'T')
     {
         std::cout << "You've found a treasure!\n";
         Treasure treasure(map);
         foundTreasure(treasure);
+        map.remainingTreasures--;
     }
 }
 
@@ -157,15 +194,15 @@ void Player::handleLocation(Map& map)
     if (getHealth() <= 0)
     {
         std::cout << "You lost!\n";
-        isDead = true;
+        exit(0);
     }
-    if (getPosition() == CellIndex(map.getRows() - 1, map.getColumns() - 1) && !isDead)
+    if (getPosition() == CellIndex(map.getRows() - 1, map.getColumns() - 1))
     {
-        char answer[4];
+        std::string answer;
         std::cout << "You've reached the target location.\n";
         std::cout << "Would you like to go to the next level?\n";
-        std::cin >> answer;
-        if (myStrcmp(answer, "Yes"))
+        std::getline(std::cin, answer);
+        if (answer == "Yes")
         {
             this->levelUp();
             map.levelUp();
@@ -175,15 +212,15 @@ void Player::handleLocation(Map& map)
 
 void Player::engage(Entity& entity)
 {
-    char answer[13];
+    std::string answer;
     std::cout << "You are attacking!\n";
     std::cout << "How would you like to attack?\n";
-    std::cin.getline(answer, 13, '\n');
-    if (myStrcmp(answer, "Basic attack"))
+    std::getline(std::cin, answer);
+    if (answer == "Basic attack")
     {
         attack(entity);
     }
-    else if (myStrcmp(answer, "Cast a spell"))
+    else if (answer == "Cast a spell")
     {
         castSpell(entity);
     }
@@ -191,13 +228,14 @@ void Player::engage(Entity& entity)
 
 void Player::foundTreasure(Treasure& treasure)
 {
-    char answer[4];
+    std::string answer;
     std::cout << treasure.getItem();
     std::cout << "Your inventory: \n";
     printInventory();
     std::cout << "Would you like to keep " << treasure.getItem().getName() << "?\n";
-    std::cin.getline(answer, 4, '\n');
-    if (myStrcmp(answer, "Yes"))
+    //std::cin >> answer;
+    std::getline(std::cin, answer);
+    if (answer == "Yes")
     {
         inventory.add(treasure.getItem());
     }
@@ -212,7 +250,59 @@ void Player::restoreHealth()
     }
 }
 
-void Player::exit()
+const Inventory& Player::getInventory() const
 {
-    //TODO: exit game 
+    return inventory;
+}
+
+/*void Player::exit()
+{
+    CommandLine cmd;
+    char answer[4];
+    std::cout << "Would you like to save your progress?\n";
+    std::cin.getline(answer, 4, '\n');
+    if (myStrcmp(answer, "Yes"))
+    {
+        std::cout << "Would you like to save your progress in the currently opened file or another file?";
+        char file[8];
+        std::cin.getline(file, 8, '\n');
+        if (myStrcmp(file, "Current"))
+        {
+            cmd.save();
+        }
+        else if (myStrcmp(file, "Another"))
+        {
+            cmd.saveAs();
+        }
+    }
+}*/
+
+std::ostream& operator<<(std::ostream& os, const Player& player)
+{
+    os << player.getLevel() << ' ' << player.getStrength() << ' ' << player.getMana() << ' ' << player.getHealth() << ' '
+        << player.getBonusStrength() << ' ' << player.getBonusMana() << ' ' << player.getBonusHealth() << '\n' << player.getRace().getName() << '\n' << player.getInventory();
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Player& player)
+{
+    std::string _race;
+    int _level;
+    int _strength;
+    int _mana;
+    int _health;
+    is >> _level >> _strength >> _mana >> _health >> player.bonusStrength >> player.bonusMana >> player.bonusHealth;
+    is >> _race;
+    if (_race == "Human")
+        player.race = Human();
+    else if (_race == "Mage")
+        player.race = Mage();
+    else if (_race == "Warrior")
+        player.race = Warrior();
+    player.setLevel(_level);
+    player.setStrength(_strength);
+    player.setMana(_mana);
+    player.setHealth(_health);
+    is >> player.inventory;
+    return is;
 }
