@@ -32,7 +32,7 @@ public:
     {
         return name;
     }
-
+    
 };
 
 #endif // !__RACE_HPP
