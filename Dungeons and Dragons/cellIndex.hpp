@@ -23,6 +23,9 @@ public:
     CellIndex left() const { return CellIndex(row, column - 1); }
 
     CellIndex right() const { return CellIndex(row, column + 1); }
+
+    friend std::istream& operator>>(std::istream& is, CellIndex& cindex);
+
 };
 
 std::ostream& operator<<(std::ostream& os, const CellIndex& cindex);
