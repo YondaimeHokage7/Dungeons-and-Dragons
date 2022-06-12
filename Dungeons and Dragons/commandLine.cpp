@@ -1,16 +1,57 @@
 #include "commandLine.hpp"
+#include "map.hpp"
+#include "player.hpp"
 
 CommandLine::CommandLine() : command(""), arguments(""), currentlyOpened("")
 {}
 
 void CommandLine::userInput()
 {
-    std::cout << "Enter a command: \n";
-    std::cin >> command;
-    std::getline(std::cin, arguments);
-    arguments.erase(0,1);
-    executeCommand();
+    while (1)
+    {
+        std::cout << "Enter a command: \n";
+        std::cin >> command;
+        std::getline(std::cin, arguments);
+        ensureValidCommand();
+        arguments.erase(0, 1);
+        executeCommand();
+    }
+}
 
+void CommandLine::ensureValidCommand()
+{
+    while (command != "open" && command != "close" && command != "save" && command != "saveas" && command != "help" && command != "exit")
+    {
+        std::cout << "Invalid input!\n";
+        help();
+        std::cout << "Enter a command: \n";
+        std::cin >> command;
+    }
+}
+
+void CommandLine::startGame()
+{
+    std::cout << "Would you like to start playing?\n";
+    char answer[4];
+    std::cin.getline(answer, 4, '\n');
+    if (myStrcmp(answer, "Yes"))
+    {
+        Player player = Human();
+        Map map(1);
+        player.start(map);
+    }
+}
+
+void CommandLine::loadGame()
+{
+    std::cout << "Loading...";
+    Player player = Human();
+    Map map(1);
+    std::ifstream saveFile(arguments, std::ios::in);
+    saveFile >> player;
+    saveFile >> map;
+    std::cout << "Successfully loaded " << player.getRace().getName() << " level " << player.getLevel() << '\n';
+    player.start(map,0);
 }
 
 void CommandLine::executeCommand()
@@ -25,7 +66,7 @@ void CommandLine::executeCommand()
     }
     else if (command == "save")
     {
-        save();
+        //save();
     }
     else if (command == "saveas")
     {
@@ -53,6 +94,8 @@ void CommandLine::open()
     if (userFile.is_open())
     {
         std::cout << "Successfully opened " << arguments << "!\n";
+        //startGame(); NE! Tuk e load game ne startGame
+        loadGame();
     }
     else
     {
@@ -62,6 +105,7 @@ void CommandLine::open()
         if (blankFile.is_open())
         {
             std::cout << "Successfully created and opened " << arguments << "\n";
+            startGame();
         }
         else
         {
@@ -69,6 +113,7 @@ void CommandLine::open()
         }
     }
     currentlyOpened = arguments;
+
 }
 
 void CommandLine::close()
@@ -84,6 +129,7 @@ void CommandLine::close()
     }
 }
 
+
 void CommandLine::save()
 {
     if (currentlyOpened == "")
@@ -95,6 +141,12 @@ void CommandLine::save()
 
     }
 }
+
+/*void CommandLine::saveAs()
+{
+
+}
+*/
 
 void CommandLine::help()
 {

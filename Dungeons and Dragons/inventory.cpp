@@ -8,14 +8,24 @@ Inventory::Inventory() : hasWeapon(true), hasSpell(true), hasArmor(false)
 {
     items[0] = Weapon("An ordinary sword", 20);
     items[1] = Spell("Fireball", 20);
-    items[2] = Armor();
+    items[2] = Armor("n/a", 0);
 }
 
-void Inventory::print() const
+void Inventory::print(std::ostream& os) const
 {
-    for (int i{0}; i < 3; i++)
+    if (&os == &std::cout)
     {
-        std::cout << items[i].getType() << " : " << items[i].getName() << '\n';
+        for (int i{0}; i < 3; i++)
+        {
+            os << items[i].getType() << " : " << items[i].getName() << ' ' << items[i].getModifier() << '\n';
+        }
+    }
+    else
+    {
+        for (int i{0}; i < 3; i++)
+        {
+            os << items[i].getName() << ' ' << items[i].getModifier() << '\n';
+        }
     }
 }
 
@@ -86,7 +96,7 @@ void Inventory::addSpell(const Item& spell)
         std::cout << "You already have a spell in your inventory!\n";
         std::cout << "Would you like to replace " << items[1].getName() << " with " << spell.getName() << '\n';
         std::cin.getline(answer, 4, '\n');
-        if (myStrcmp(answer,"Yes"))
+        if (myStrcmp(answer, "Yes"))
         {
             std::cout << spell.getName() << " is now equipped!\n";
             setSpell(spell);
@@ -126,4 +136,23 @@ void Inventory::addWeapon(const Item& weapon)
         std::cout << weapon.getName() << " is now equipped!\n";
         setWeapon(weapon);
     }
+}
+
+std::istream& operator>>(std::istream& is, Inventory& inventory)
+{
+    is.ignore();
+    for (int i{0}; i < 3; i++)
+    {
+        is >> inventory.items[i];
+    }
+    return is;
+}
+
+std::ostream& operator << (std::ostream& os, const Inventory& inventory)
+{
+    for (int i{0}; i < 3; i++)
+    {
+        os << inventory.getItems(i);
+    }
+    return os;
 }
