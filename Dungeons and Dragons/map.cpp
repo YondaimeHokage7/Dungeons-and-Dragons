@@ -4,6 +4,9 @@
 #include <sstream>
 #include "map.hpp"
 
+int Map::remainingMonsters = 0;
+int Map::remainingTreasures = 0;
+
 Map::Map(int _level) : level(_level), monsters(getFileStat("Monsters", _level)), treasures(getFileStat("Treasures", _level)), Matrix(getFileStat("Rows", _level), getFileStat("Columns", _level))
 {
     addMonsters();
@@ -12,6 +15,12 @@ Map::Map(int _level) : level(_level), monsters(getFileStat("Monsters", _level)),
     {
         generateNextFile();
     }
+}
+
+Map::Map(int _level, int _monsters, int _treasures, int _rows, int _columns, int _numberOfConnections, CellIndex* _connections, int _remainingMonsters, int _remainingTreasures) : level(_level), monsters(_monsters), treasures(_treasures), Matrix(_rows, _columns, _numberOfConnections, _connections)
+{
+    remainingMonsters = _remainingMonsters;
+    remainingTreasures = _remainingTreasures;
 }
 
 int Map::getFileStat(std::string stat, int _level) const
@@ -156,6 +165,7 @@ void Map::addTreasures()
         {
             setElement(random, 'T');
             _treasures++;
+            remainingTreasures++;
         }
     }
 }
@@ -170,6 +180,7 @@ void Map::addMonsters()
         {
             setElement(random, 'M');
             _monsters++;
+            remainingMonsters++;
         }
     }
 }
@@ -180,40 +191,95 @@ void Map::levelUp()
     *this = newmap;
 }
 
-
-
-
-/*
-Map::Map(const Map& other)
+CellIndex* Map::getMonsterPostitions() const
 {
-    level = other.level;
-    monsters = other.monsters;
-    treasures = other.treasures;
-    size = other.size;
-    map = other.map;
-    paths = other.paths;
-    delete[] connections;
-    connections = other.connections;
-}
-
-Map& Map::operator=(const Map& other)
-{
-    if (this != &other)
+    int arrIndex{0};
+    CellIndex* positions = new CellIndex[remainingMonsters];
+    for (int i{0}; i < getRows(); i++)
     {
-        level = other.level;
-        monsters = other.monsters;
-        treasures = other.treasures;
-        size = other.size;
-        map = other.map;
-        paths = other.paths;
-        delete[] connections;
-        connections = other.connections;
+        for (int j{0}; j < getColumns(); j++)
+        {
+            if (getElement(CellIndex(i, j)) == 'M')
+            {
+                positions[arrIndex] = CellIndex(i, j);
+                arrIndex++;
+            }
+        }
     }
-    return *this;
+    return positions;
 }
 
-Map::~Map()
+CellIndex* Map::getTreasurePostitions() const
 {
-    delete[] connections;
+    int arrIndex{0};
+    CellIndex* positions = new CellIndex[remainingTreasures];
+    for (int i{0}; i < getRows(); i++)
+    {
+        for (int j{0}; j < getColumns(); j++)
+        {
+            if (getElement(CellIndex(i, j)) == 'T')
+            {
+                positions[arrIndex] = CellIndex(i, j);
+                arrIndex++;
+            }
+        }
+    }
+    return positions;
 }
-*/
+
+std::ostream& operator<<(std::ostream& os, const Map& map)
+{
+    os << map.getLevel() << ' ' << map.getMonsters() << ' ' << map.getTreasures() << ' ' << map.getRows() << ' ' << map.getColumns() << ' ' << map.remainingMonsters << ' ' << map.remainingTreasures << '\n';
+    CellIndex* monsterPositions = map.getMonsterPostitions();
+    CellIndex* treasurePostitions = map.getTreasurePostitions();
+    for (int i{0}; i < map.remainingMonsters; i++)
+    {
+        os << monsterPositions[i];
+    }
+    for (int i{0}; i < map.remainingTreasures; i++)
+    {
+        os << treasurePostitions[i];
+    }
+    os << map.getNumberOfConnections() << '\n';
+    for (int i{0}; i < map.getNumberOfConnections(); i++)
+    {
+        os << map.getConnections()[i];
+    }
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Map& map)
+{
+    int level, remainingMonsters, remainingTreasures, dragons, treasures, rows, columns;
+    is >> level >> dragons >> treasures >> rows >> columns >> remainingMonsters >> remainingTreasures;
+    CellIndex* monsterPositions = new CellIndex[remainingMonsters];
+    CellIndex* treasurePostions = new CellIndex[remainingTreasures];
+    for (int i{0}; i < remainingMonsters; i++)
+    {
+        is >> monsterPositions[i];
+    }
+    for (int i{0}; i < remainingTreasures; i++)
+    {
+        is >> treasurePostions[i];
+    }
+    int numberOfConnections;
+    is >> numberOfConnections;
+    CellIndex* connections = new CellIndex[numberOfConnections];
+    for (int i{0}; i < numberOfConnections; i++)
+    {
+        is >> connections[i];
+    }
+    Map newMap(level, dragons, treasures, rows, columns, numberOfConnections, connections, remainingMonsters, remainingTreasures);
+    map = newMap;
+    for (int i{0}; i < map.remainingMonsters; i++)
+    {
+        map.setElement(monsterPositions[i], 'M');
+    }
+    for (int i{0}; i < map.remainingTreasures; i++)
+    {
+        map.setElement(treasurePostions[i], 'T');
+    }
+    delete[] monsterPositions;
+    delete[] treasurePostions;
+    return is;
+}

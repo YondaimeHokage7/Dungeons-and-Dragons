@@ -15,20 +15,26 @@ private:
     int level;
 
     int monsters, treasures;
-    
+
     void generateNextFile() const;
-    
+
     void printBorder() const;
 
 public:
-    Map(int level = 0);
+    static int remainingMonsters;
+
+    static int remainingTreasures;
+
+    Map(int level = 1);
+
+    Map(int _level, int _monsters, int _treasures, int _rows, int _columns, int _numberOfConnections, CellIndex* _connections, int remainingMonsters, int remainingTreasures);
 
     int getLevel() const { return level; }
 
     int getMonsters() const { return monsters; }
 
     int getTreasures() const { return treasures; }
-    
+
     int getFileStat(std::string stat, int _level) const;
 
     void print() const;
@@ -38,5 +44,16 @@ public:
     void addMonsters();
 
     void levelUp();
+
+    CellIndex* getMonsterPostitions() const;
+
+    CellIndex* getTreasurePostitions() const;
+
+    friend std::istream& operator>>(std::istream& is, Map& map);
+
 };
+
+std::ostream& operator<<(std::ostream& os, const Map& map);
+
+
 #endif // !__MAP_HPP
