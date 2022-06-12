@@ -10,10 +10,14 @@ private:
     std::string command;
     std::string arguments;
 public:
+
     CommandLine();
 
-    void userInput();
 
+    void userInput();
+    void ensureValidCommand();
+    void startGame();
+    void loadGame();
     void open();
     void close();
     void save();
@@ -22,6 +26,7 @@ public:
     void exitProgram();
 
     void executeCommand();
+
 
     std::string getCurrentlyOpened() const { return currentlyOpened; }
     std::string getCommand() const { return command; }
