@@ -10,7 +10,7 @@ private:
 
     char** matrix;
 
-    CellIndex* connections;
+    void addChar(char character);
 
     int numberOfConnections;
 
@@ -22,9 +22,11 @@ private:
 
     void stackToArray(Stack& stack);
 protected:
-    void addZeroes();
+    CellIndex* connections;
 public:
     Matrix(int _rows = 0, int _columns = 0);
+
+    Matrix(int _rows, int _columns, int _numberOfConnections, CellIndex* _connections);
 
     Matrix(const Matrix&);
 
@@ -47,8 +49,5 @@ public:
     void generateMaze();
 
     //void setMatrix();
-
 };
 
-//char getMatrix(int i, int j) const { return matrix[i][j]; }
-//void print();

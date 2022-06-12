@@ -10,6 +10,18 @@ Matrix::Matrix(int _rows, int _columns) : rows(_rows), columns(_columns), matrix
     generateMaze();
 }
 
+Matrix::Matrix(int _rows, int _columns, int _numberOfConnections, CellIndex* _connections) : rows(_rows), columns(_columns), numberOfConnections(_numberOfConnections)
+{
+    allocate(_rows, _columns);
+    connections = new CellIndex[numberOfConnections];
+    for (int i{0}; i < _numberOfConnections; i++)
+    {
+        connections[i] = _connections[i];
+    }
+    delete[] _connections;
+    addChar('.');
+}
+
 Matrix::Matrix(const Matrix& other) : rows(other.rows), columns(other.columns)
 {
     deallocate();
@@ -25,8 +37,14 @@ Matrix& Matrix::operator=(const Matrix& other)
         deallocate();
         rows = other.rows;
         columns = other.columns;
+        numberOfConnections = other.numberOfConnections;
         allocate(rows, columns);
-        generateMaze();
+        connections = new CellIndex[other.numberOfConnections];
+        //generateMaze();
+        for (int i{0}; i < other.numberOfConnections; i++)
+        {
+            connections[i] = other.connections[i];
+        }
         copyElements(other);
     }
     return *this;
@@ -65,16 +83,16 @@ void Matrix::allocate(int _rows, int _columns)
     {
         matrix[i] = new char[_columns];
     }
-    addZeroes();
+    addChar('0');
 }
 
-void Matrix::addZeroes()
+void Matrix::addChar(char character)
 {
     for (int i{0}; i < rows; i++)
     {
         for (int j{0}; j < columns; j++)
         {
-            matrix[i][j] = '0';
+            matrix[i][j] = character;
         }
     }
 }
@@ -154,8 +172,3 @@ void Matrix::setElement(CellIndex index, char newValue)
 {
     matrix[index.getRow()][index.getColumn()] = newValue;
 }
-
-//void Matrix::setMatrix()
-//{
-
-//}
