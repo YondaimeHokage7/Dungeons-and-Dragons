@@ -6,8 +6,8 @@ Item::Item(std::string _name, std::string _type, int _modifier) : name(_name), t
 
 std::istream& operator>>(std::istream& is, Item& item)
 {
-    std::getline(is, item.type);
-    std::getline(is, item.name);
+    std::getline(is, item.type,'\n');
+    std::getline(is, item.name,'\n');
     is >> item.modifier;
     is.ignore();
     return is;
