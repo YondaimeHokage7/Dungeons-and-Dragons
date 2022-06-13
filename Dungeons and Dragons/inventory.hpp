@@ -11,11 +11,6 @@ private:
     bool hasWeapon;
     bool hasSpell;
     bool hasArmor;
-    /*
-    bool hasWeapon;
-    bool hasSpell;
-    bool hasArmor;
-    */
 public:
     Inventory();
     int getStrengthModifier() const { return items[0].getModifier(); }
