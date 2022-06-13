@@ -2,6 +2,9 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "player.hpp"
+#include "map.hpp"
+
 
 class CommandLine
 {
@@ -20,10 +23,13 @@ public:
     void loadGame();
     void open();
     void close();
+    void save(const Player& player, const Map& map);
     void save();
-    //void saveAs();
+    void saveAs(const Player& player, const Map& map);
+    void saveAs();
     void help();
-    void exitProgram();
+    void exitProgram(const Player& player, const Map& map);
+    void exitCommandLine();
 
     void executeCommand();
 
