@@ -17,13 +17,10 @@ private:
     int bonusStrength;
     int bonusMana;
     int bonusHealth;
-    //int armor;
     Race race;
     Inventory inventory;
 public:
     Player(Race _race);
-
-    //Player(int _level, int _strength, int _mana, int _health, int _bonusStrength, int _bonusMana, int _bonusHealth, Race _race, Inventory _inventory, int _numberOfConnections, CellIndex* _connections);
 
     void start(Map& map, bool newCharacter = 1);
     
@@ -58,8 +55,6 @@ public:
     void restoreHealth();
 
     const Inventory& getInventory() const;
-
-    //void exit();
 
     friend std::istream& operator>>(std::istream& is, Player& player);
 

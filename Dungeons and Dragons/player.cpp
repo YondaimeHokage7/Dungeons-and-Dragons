@@ -21,8 +21,8 @@ void Player::start(Map& map, bool newCharacter)
         std::cout << "Mage\n";
         std::cout << "Warrior\n";
         std::string race;
-        std::getline(std::cin, race);
-        //std::cin >> race;
+        std::cin.ignore();
+        std::getline(std::cin, race,'\n');
         if (race == "Human")
         {
             Player newplayer = Human();
@@ -42,7 +42,6 @@ void Player::start(Map& map, bool newCharacter)
         {
             std::cout << "That's not a valid race!\n";
             std::cout << "Enter a new race:\n";
-            //std::cin >> race;
             std::getline(std::cin, race);
         }
         std::cout << "Successfully created a " << this->getRace().getName() << '\n';
@@ -77,12 +76,11 @@ void Player::move(Map& map)
     std::string answers[4]{"Up", "Down", "Left", "Right"};
     std::string direction;
     std::string answer;
-    while (direction != "Exit")
+    while (direction != "exit")
     {
         map.print();
         std::cout << "Where would you like to go?\n";
         std::getline(std::cin, direction);
-        //std::cin >> direction;
         if (direction == answers[0] && areConnected(getPosition(), getPosition().up(), map.getConnections(), map.getNumberOfConnections()))
         {
             std::cout << "You moved up!\n";
@@ -119,7 +117,11 @@ void Player::move(Map& map)
         {
             if (direction == answers[0] || direction == answers[1] || direction == answers[2] || direction == answers[3])
             {
-                std::cout << "You can't go there!";
+                std::cout << "You can't go there!\n";
+            }
+            else if (direction == "exit")
+            {
+                std::cout << "Exiting...";
             }
             else
             {
@@ -233,7 +235,6 @@ void Player::foundTreasure(Treasure& treasure)
     std::cout << "Your inventory: \n";
     printInventory();
     std::cout << "Would you like to keep " << treasure.getItem().getName() << "?\n";
-    //std::cin >> answer;
     std::getline(std::cin, answer);
     if (answer == "Yes")
     {
@@ -254,28 +255,6 @@ const Inventory& Player::getInventory() const
 {
     return inventory;
 }
-
-/*void Player::exit()
-{
-    CommandLine cmd;
-    char answer[4];
-    std::cout << "Would you like to save your progress?\n";
-    std::cin.getline(answer, 4, '\n');
-    if (myStrcmp(answer, "Yes"))
-    {
-        std::cout << "Would you like to save your progress in the currently opened file or another file?";
-        char file[8];
-        std::cin.getline(file, 8, '\n');
-        if (myStrcmp(file, "Current"))
-        {
-            cmd.save();
-        }
-        else if (myStrcmp(file, "Another"))
-        {
-            cmd.saveAs();
-        }
-    }
-}*/
 
 std::ostream& operator<<(std::ostream& os, const Player& player)
 {
