@@ -3,9 +3,11 @@
 
 #include "item.hpp"
 
+/// A class representing an item of type Armor
 class Armor : public Item
 {
 public:
+    /// Default parameter constructor
     Armor(std::string _name = "Flimsy old tunic", int _modifier = 0);
 };
 
