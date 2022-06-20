@@ -33,14 +33,14 @@ public:
     /// Race getter
     const Race& getRace() const { return race; }
     /// A function that is executed when the player performs a basic attack
-    virtual void attack(Entity& target);
+    void attack(Entity& target);
     /// A function that is executed when the player casts a spell
-    virtual void castSpell(Entity& target);
+    void castSpell(Entity& target);
     /// A function that is executed when the player is attacked
-    virtual void takeDamage(int damage);
+    void takeDamage(int damage);
     /// A function printing the inventory
     void printInventory(std::ostream& os = std::cout) const;
-    /// A function used to move the player arounf the map
+    /// A function used to move the player around the map
     void move(Map& map);
     /// A function increasing the level of the player by 1
     void levelUp();

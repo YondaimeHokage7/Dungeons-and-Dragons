@@ -6,7 +6,6 @@
 Matrix::Matrix(int _rows, int _columns) : rows(_rows), columns(_columns), matrix(nullptr), connections(nullptr)
 {
     allocate(_rows, _columns);
-    //addZeroes();
     generateMaze();
 }
 
@@ -40,7 +39,6 @@ Matrix& Matrix::operator=(const Matrix& other)
         numberOfConnections = other.numberOfConnections;
         allocate(rows, columns);
         connections = new CellIndex[other.numberOfConnections];
-        //generateMaze();
         for (int i{0}; i < other.numberOfConnections; i++)
         {
             connections[i] = other.connections[i];
@@ -106,7 +104,7 @@ void Matrix::stackToArray(Stack& stack)
     }
 }
 
-void Matrix::generateMaze()
+void Matrix::generateMaze() 
 {
     Stack stack(columns * rows);
     Stack eligible(4);
@@ -146,7 +144,6 @@ void Matrix::generateMaze()
         if (eligible.empty())
         {
             paths.push(stack.pop());
-            //stack.pop();
         }
         //At least one eligible cell
         else

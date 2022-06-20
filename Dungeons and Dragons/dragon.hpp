@@ -15,11 +15,11 @@ public:
     /// Default parameter constructor
     Dragon(int _level = 1, CellIndex _position = (0, 0));
     /// A function that performs a basic attack on a given entity
-    virtual void attack(Entity&);
+    void attack(Entity&);
     /// A function that casts a a spell on a given entity
-    virtual void castSpell(Entity&);
+    void castSpell(Entity&); 
     /// A function that deals damage to the object
-    virtual void takeDamage(int damage);
+    void takeDamage(int damage); 
     /// A function that increases the dragon level
     void levelUp();
     /// A function that is called when the dragon engages in a battle with another entity

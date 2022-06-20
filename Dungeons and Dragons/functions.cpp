@@ -60,7 +60,7 @@ bool areConnected(CellIndex cell1, CellIndex cell2, CellIndex* connections, int 
     return result;
 }
 
-void ensureValidity(int answer, int points)
+void ensureValidity(int& answer, int points)
 {
     while (answer < 0 || answer > points)
     {

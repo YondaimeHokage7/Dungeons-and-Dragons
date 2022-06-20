@@ -3,10 +3,8 @@
 #include "treasure.hpp"
 #include "gameplayFunctions.hpp"
 
-Player::Player(Race _race) : race(_race), bonusHealth(0), Entity(1, _race.getRaceStrength(), _race.getRaceMana(), _race.getRaceHealth(), (0, 0))
+Player::Player(Race _race) : race(_race), bonusHealth(0), bonusStrength(0), bonusMana(0), Entity(1, _race.getRaceStrength(), _race.getRaceMana(), _race.getRaceHealth(), (0, 0))
 {
-    bonusStrength = 0.5 + (double)inventory.getStrengthModifier() / 100 * getStrength();
-    bonusMana = 0.5 + (double)inventory.getSpellModifier() / 100 * getMana();
     setStrength(0.5 + (getStrength() + bonusStrength));
     setMana(0.5 + (getMana() + bonusMana));
 }
@@ -22,7 +20,7 @@ void Player::start(Map& map, bool newCharacter)
         std::cout << "Warrior\n";
         std::string race;
         std::cin.ignore();
-        std::getline(std::cin, race,'\n');
+        std::getline(std::cin, race, '\n');
         if (race == "Human")
         {
             Player newplayer = Human();
@@ -43,6 +41,12 @@ void Player::start(Map& map, bool newCharacter)
             std::cout << "That's not a valid race!\n";
             std::cout << "Enter a new race:\n";
             std::getline(std::cin, race);
+            if (race == "Human")
+                Player newPlayer = Human();
+            else if (race == "Mage")
+                Player newePlayer = Mage();
+            else if (race == "Warrior")
+                Player newPlayer = Warrior();
         }
         std::cout << "Successfully created a " << this->getRace().getName() << '\n';
 

@@ -161,7 +161,7 @@ void Map::addTreasures()
     while (_treasures < treasures)
     {
         CellIndex random(randomBetween(0, getRows() - 1), randomBetween(0, getColumns()));
-        if (getElement(random) == '.')
+        if (getElement(random) == '.' && random != CellIndex(0, 0))
         {
             setElement(random, 'T');
             _treasures++;
@@ -176,7 +176,7 @@ void Map::addMonsters()
     while (_monsters < monsters)
     {
         CellIndex random(randomBetween(0, getRows() - 1), randomBetween(0, getColumns()));
-        if (getElement(random) == '.')
+        if (getElement(random) == '.' && random != CellIndex(0,0))
         {
             setElement(random, 'M');
             _monsters++;

@@ -37,6 +37,9 @@ void CommandLine::startGame()
     {
         Player player = Human();
         Map map(1);
+        std::ofstream create(currentlyOpened);
+        create << player << map;
+        create.close();
         player.start(map);
         exitProgram(player, map);
     }
@@ -44,7 +47,7 @@ void CommandLine::startGame()
 
 void CommandLine::loadGame()
 {
-    std::cout << "Loading...";
+    std::cout << "Loading...\n";
     Player player = Human();
     Map map(1);
     std::ifstream saveFile(arguments, std::ios::in);
