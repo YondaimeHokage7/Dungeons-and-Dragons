@@ -6,6 +6,7 @@
 const std::string treasure = "treasure";
 const std::string extenstion = ".txt";
 
+/// A class representing an item
 class Item
 {
 private:
