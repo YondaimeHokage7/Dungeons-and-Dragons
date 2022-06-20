@@ -11,15 +11,18 @@ const std::string treasureFile = "treasure";
 class Treasure
 {
 private:
-    /// The actual tresure
+    /// The actual treasure
     Item item;
 public:
     /// Constructor
     Treasure(const Map& map);
+
     /// Item getter
     const Item& getItem() const { return item; }
+
     /// A function generating the next treasure list
     void generateNext(int level);
+
     /// Overloaded >> operator
     friend std::istream& operator>>(std::istream& is, Treasure& _item);
 };

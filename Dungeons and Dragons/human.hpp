@@ -7,7 +7,7 @@
 class Human : public Race
 {
 public:
-    /// Default constsructor
+    /// Default constructor
     Human();
 };
 

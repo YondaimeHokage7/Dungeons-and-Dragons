@@ -8,10 +8,13 @@ class Stack
 private:
     /// The index of the top element of a stack with no elements
     const int static EMPTY_STACK{-1};
+
     /// The capacity of the stack
     int capacity;
+
     /// The index of the current top element
     int top;
+
     /// An array of the elements in the stack
     CellIndex* elements;
 public:
