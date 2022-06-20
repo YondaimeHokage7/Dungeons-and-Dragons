@@ -3,9 +3,11 @@
 
 #include "race.hpp"
 
+/// A class representing a Warrior
 class Warrior : public Race
 {
 public:
+    /// Default constructor
     Warrior();
 };
 

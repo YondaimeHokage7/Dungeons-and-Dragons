@@ -23,12 +23,6 @@ public:
 
     void setModifier(int _modifier) { modifier = _modifier; }
 
-    //void setName(std::string _name) { name = _name; }
-
-    // void setType(std::string _type) { type = _type; }
-
-    //void setModifier(int _modifier) { modifier = _modifier; }
-
     friend std::istream& operator>>(std::istream& is, Item& item);
 };
 

@@ -3,9 +3,11 @@
 
 #include "item.hpp"
 
+/// A class representing an item of type Spell
 class Spell : public Item
 {
 public:
+    /// Default parameter constructor
     Spell(std::string _name = "Awkward old potion", int _modifier = 0);
 };
 

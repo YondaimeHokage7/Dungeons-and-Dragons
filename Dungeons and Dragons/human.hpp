@@ -3,9 +3,11 @@
 
 #include "race.hpp"
 
+/// A class representing a Human
 class Human : public Race
 {
 public:
+    /// Default constsructor
     Human();
 };
 
