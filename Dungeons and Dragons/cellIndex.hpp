@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 
-/// A struct representing a 2D matrix index
-struct CellIndex
+/// A class representing a 2D matrix index
+class CellIndex
 {
 private:
     /// Integers representing the index of the current row and column
